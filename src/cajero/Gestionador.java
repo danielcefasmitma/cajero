@@ -4,88 +4,63 @@
  */
 package cajero;
 
-import cajero.GestorIO;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Gestionador {
 
-    private PanelOpciones opciones;
-    private Usuario usuario;
     private File directorioUsuarios;
-    
+    private GestorArchivo gestorArchivo;
+
     public Gestionador() {
-        usuario = null;
-        opciones = null;
-        directorioUsuarios = new File(System.getProperty("user.dir")+"/src/usuarios/");
-        if(!directorioUsuarios.exists()){
+        gestorArchivo = new GestorArchivo();
+        directorioUsuarios = new File(System.getProperty("user.dir") + "/src/usuarios/");
+        if (!directorioUsuarios.exists()) {
             directorioUsuarios.mkdir();
         }
     }
 
-    public void iniciarSesion() {
-        GestorIO gestorIO = new GestorIO();
-        usuario = recojerDatosInicioSesion();
-        File cuenta = new File(directorioUsuarios + usuario.getNombreUsuario()+ ".txt");
-        if (cuenta.exists()) {
-            try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(cuenta)));
-                boolean esMismaContraseña = false;
-                List<String> lineasArchivo = br.lines().toList();
-                String contrasenaDeArchivo = lineasArchivo.get(GestorArchivo.LINEA_SALDO - 1);
-                esMismaContraseña = usuario.getContrasena().equals(contrasenaDeArchivo);
-
-                if (esMismaContraseña) {
-                    opciones = new PanelOpciones(cuenta);
-                } else {                   
-                    gestorIO.out("Colocaste una constraseña incorrecta");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            };
-
-        }else{
-            gestorIO.out("No existe la cuenta");
-        }
-    }
-
-    public void crearCuenta() {
-        usuario = recojerDatosCreacionDeCuenta();
+    public void crearCuenta(String nombreUsuario, String nombreTitular, char[] contrasena) {
+        System.out.println(directorioUsuarios);
         try {
-            File directorio = new File(directorioUsuarios + usuario.getNombreUsuario()+ ".txt");
+            File directorio = new File(directorioUsuarios +"/"+ nombreUsuario+ ".txt");
             directorio.createNewFile();
-            escribirDatosUsuario(directorio);
+            escribirDatosUsuario(directorio,nombreUsuario, nombreTitular, contrasena);
 
         } catch (IOException ex) {
             Logger.getLogger(Gestionador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    private void escribirDatosUsuario(File directorio) throws IOException {
+ 
+    private void escribirDatosUsuario(File directorio, String nombreUsuario, String nombreTitular, char[] contrasena) throws IOException {
         BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(directorio, true)));
-        br.write(usuario.getNombreUsuario());
+        br.write(nombreUsuario);
         br.newLine();
-        br.write(usuario.getNombreTitular());
+        br.write(nombreTitular);
         br.newLine();
         br.write(""+generarNumeroDeCuenta());
         br.newLine();
-        br.write(usuario.getContrasena());
+        br.write(procesarContrasena(contrasena));
         br.newLine();
         br.write(""+0);
         br.close();
     }
-
+    
+    private String procesarContrasena(char[] contrasena){
+        String contrasenaCadena = "";
+        for(int i = 0; i < contrasena.length; i++){
+            contrasenaCadena += "" + contrasena[i];
+        }
+        return contrasenaCadena;
+    }
+ 
     private int generarNumeroDeCuenta() {
         SecureRandom sr = null;
         int min = 20000000;
@@ -99,33 +74,38 @@ public class Gestionador {
         return sr.nextInt(min, max);
 
     }
+     
+    public boolean existeUsuario(String nombreUsuario) {
+        return gestorArchivo.existeUsuario(nombreUsuario);
 
-    private Usuario recojerDatosInicioSesion() {
-        GestorIO gestorIO = new GestorIO();
-        gestorIO.out("Ingrese su Nombre de Usuario");
-        String nombre = gestorIO.inString();
-        gestorIO.out("Ingrese su contrasena");
-        String contrasena = gestorIO.inString();
-        return new Usuario(nombre, contrasena);
     }
 
-    private Usuario recojerDatosCreacionDeCuenta() {   
-        String nombreUsuario = "";
-        String nombreTitular = "";
-        String contrasena = "";
-        GestorIO gestorIO = new GestorIO();
-        gestorIO.out("Introduce tu nombre de usuario:");
-        nombreUsuario = gestorIO.inString();
-        gestorIO.out("Introduce tu nombre completo:");
-        nombreTitular = gestorIO.inString();
-        boolean contrasenasIguales = false;
-        do {
-            gestorIO.out("Introduce tu contraseña");
-            contrasena = gestorIO.inString();
-            gestorIO.out("Introduce tu contraseña otra vez");
-            contrasenasIguales = gestorIO.inString().equals(contrasena);
-        } while (!contrasenasIguales);
-        return new Usuario(nombreUsuario, nombreTitular, contrasena);
+    public boolean contrasenaCoincide(char[] contrasena) {
+        return gestorArchivo.contrasenaCoincide(contrasena);
+    }
+
+    public String saldoDisponible() {
+        return "" + gestorArchivo.saldoDisponible();
+    }
+
+    public boolean depositar(int monto) {
+        return gestorArchivo.depositarDinero(monto);
+    }
+
+    public boolean retirar(int monto) {
+        return gestorArchivo.retirarDinero(monto);
+    }
+
+    public boolean transferir(String numCuenta, String monto) {
+        return gestorArchivo.tranferir(numCuenta, monto);
+    }
+
+    public boolean cambiarContrasena(char[] nuevaCont, char[] confirmacionCont) {
+        return gestorArchivo.cambiarContraseña(nuevaCont, confirmacionCont);
+    }
+
+    public boolean contrasenasCoinciden(char[] nuevaContrasena, char[] confirmacionContrasena) {
+        return gestorArchivo.contrasenaCoincide(nuevaContrasena, confirmacionContrasena);
     }
 
 }

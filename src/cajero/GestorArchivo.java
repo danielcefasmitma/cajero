@@ -17,7 +17,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GestorArchivo {
 
     final static int LINEA_NOMBRE_TITULAR = 2;
@@ -25,19 +24,15 @@ public class GestorArchivo {
     final static int LINEA_CONSTRASENA = 4;
     final static int LINEA_SALDO = 5;
     private File cuenta;
+    private String directorioUsuarios = System.getProperty("user.dir") + "/src/usuarios/";
 
-    public GestorArchivo(File cuenta) {
-        this.cuenta = cuenta;
+    
+    public GestorArchivo(){
     }
 
-    public void consultarSaldo() {
-        GestorIO gestorIO = new GestorIO();
-        gestorIO.out("" + saldoDisponible());
-    }
-
-    private int saldoDisponible() {
+    public int saldoDisponible() {
         List<String> contenido = getContenidoArchivo();
-        return Integer.parseInt(contenido.get(LINEA_SALDO-1));
+        return Integer.parseInt(contenido.get(LINEA_SALDO - 1));
     }
 
     public List<String> getContenidoArchivo() {
@@ -52,65 +47,110 @@ public class GestorArchivo {
         return contenido;
     }
 
-    public void retirarDinero() {
-        GestorIO gestorIO = new GestorIO();
-        gestorIO.out("Ingrese la Cantidad de Dinero a Retirar");
-        int dineroARetirar = gestorIO.inInt();
+    public boolean retirarDinero(int monto) {
+        boolean sePudoRetirar = false;
+        int dineroARetirar = monto;
         if (dineroARetirar < saldoDisponible()) {
+            sePudoRetirar = true;
             int nuevoSaldoDisponible = saldoDisponible() - dineroARetirar;
-            escribirEnArchivo(LINEA_SALDO-1, nuevoSaldoDisponible + "");
-        } else {
-            gestorIO.out("No tiene saldo suficiente para retirar.");
+            escribirEnArchivo(LINEA_SALDO - 1, nuevoSaldoDisponible + "");
         }
+        return sePudoRetirar;
     }
 
-    public void depositarDinero() {
-        GestorIO gestorIO = new GestorIO();
-        gestorIO.out("Ingrese la Cantidad de Dinero a Depositar");
-        int dineroADepositar = gestorIO.inInt();
-        int nuevoSaldoDisponible = saldoDisponible() + dineroADepositar;
-        escribirEnArchivo(LINEA_SALDO-1, nuevoSaldoDisponible + "");
-
-    }
-
-    public void transferirDinero() {
-        GestorIO gestorIO = new GestorIO();
-        gestorIO.out("¿A que cuenta desea depositar?");
-        String usuarioADepositar = gestorIO.inString();
-        File cuentaADepositar = new File(System.getProperty("user.dir") + "/src/usuarios/" + usuarioADepositar + ".txt");
-
-        if (cuentaADepositar.exists()) {
-            gestorIO.out("¿Qúé monto desea depositar?");
-            String montoADepositar = gestorIO.inString();
-            File cuentaOrigen = cuenta;
-            cuenta = cuentaADepositar;
-            escribirEnArchivo(LINEA_SALDO-1, montoADepositar);
-            cuenta = cuentaOrigen;
-        } else {
-            gestorIO.out("No existe esta cuenta.");
+    public boolean depositarDinero(int monto) {
+        boolean sePudoDepositar = false;
+        int dineroADepositar = monto;
+        if (monto > 0) {
+            sePudoDepositar = true;
+            int nuevoSaldoDisponible = saldoDisponible() + dineroADepositar;
+            escribirEnArchivo(LINEA_SALDO - 1, nuevoSaldoDisponible + "");
         }
+        return sePudoDepositar;
     }
 
-    public void cambiarContraseña() {
-        GestorIO gestorIO = new GestorIO();
-        gestorIO.out("Escriba su contraseña antigua");
-        String contrasenaAntigua = gestorIO.inString();
-        String contrasenaActual = getContenidoArchivo().get(LINEA_CONSTRASENA-1);
-        if (contrasenaActual.equals(contrasenaAntigua)) {
-            gestorIO.out("Escriba su nueva Contraseña");
-            String nuevaConstrasena = gestorIO.inString();
-            gestorIO.out("Escriba su nueva contraseña otra vez");
-            String nuevaConstrasenaRepeticion = gestorIO.inString();
-            if (nuevaConstrasena.equals(nuevaConstrasenaRepeticion)) {
-                escribirEnArchivo(LINEA_CONSTRASENA-1, nuevaConstrasena);
-            } else {
-                gestorIO.out("Las constraseñas no coinciden");
+    public boolean cambiarContraseña(char[] nueva, char[] confirmacion) {
+        String nuevaContrasena = "";
+        boolean esMismaConstrasena = true;
+        if (nueva.length == confirmacion.length) {           
+            for (int i = 0; esMismaConstrasena && i < nueva.length; i++) {
+                esMismaConstrasena = esMismaConstrasena && (nueva[i] == confirmacion[i]);
+                if (esMismaConstrasena) {
+                    nuevaContrasena = nuevaContrasena + "" + nueva[i];
+                }
+                nueva[i] = 0;
+                confirmacion[i] = 0;
             }
-        } else {
-            gestorIO.out("No es una contraseña correcta");
+            if (esMismaConstrasena) {
+                escribirEnArchivo(LINEA_CONSTRASENA - 1, nuevaContrasena);
+            }
         }
+        return esMismaConstrasena;
+
+    }
+   
+    public boolean existeUsuario(String nombreUsuario) {
+        cuenta = new File(directorioUsuarios + nombreUsuario + ".txt");
+        System.out.println(cuenta.exists());
+        return cuenta.exists();
     }
 
+    public boolean tranferir(String numCuenta, String montoATransferir) {
+        File directorio = new File(directorioUsuarios);
+        File[] cuentas = directorio.listFiles();
+        boolean existeCuenta = false;
+        try {
+            int i = 0;
+            while (!existeCuenta && i < cuentas.length) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(cuentas[i])));
+                List<String> contenidoCuenta = br.lines().toList();
+                String numCuentaArchivo = contenidoCuenta.get(LINEA_NUMERO_CUENTA - 1);
+                existeCuenta = numCuenta.equals(numCuentaArchivo);
+                if (!existeCuenta) {
+                    i++;
+                }
+            }
+            retirarDinero(Integer.parseInt(montoATransferir));
+            File cuentaOrigen = cuenta;
+            cuenta = cuentas[i];
+            depositarDinero(Integer.parseInt(montoATransferir));
+            escribirEnArchivo(LINEA_SALDO - 1, saldoDisponible() + "");
+            cuenta = cuentaOrigen;
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return existeCuenta;
+    }
+
+    public boolean contrasenaCoincide(char[] contrasena) {
+        boolean esMismaContraseña = false;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(cuenta)));
+            List<String> contenidoCuenta = br.lines().toList();
+            String contrasenaDeArchivo = contenidoCuenta.get(GestorArchivo.LINEA_CONSTRASENA - 1);
+            String contrasenaIngresada = "";
+            for (int i = 0; i < contrasena.length; i++) {
+                contrasenaIngresada += "" + contrasena[i];
+                contrasena[i] = 0;
+            }
+            esMismaContraseña = contrasenaIngresada.equals(contrasenaDeArchivo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        };
+        return esMismaContraseña;
+    }
+
+    public boolean contrasenaCoincide(char[] nueva, char[] confirmacion) {
+        boolean esMismaConstrasena = true;
+        if (nueva.length == confirmacion.length) {           
+            for (int i = 0; esMismaConstrasena && i < nueva.length; i++) {
+                esMismaConstrasena = esMismaConstrasena && (nueva[i] == confirmacion[i]);
+            }
+        }
+        return esMismaConstrasena;
+    }
+    
     private void escribirEnArchivo(int nroLinea, String reemplazo) {
         List<String> contenido = getContenidoArchivo();
         contenido.set(nroLinea, reemplazo);
@@ -127,5 +167,6 @@ public class GestorArchivo {
             e.printStackTrace();
         }
     }
+
 
 }
