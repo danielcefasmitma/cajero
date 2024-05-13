@@ -4,14 +4,21 @@
  */
 package ventanas;
 
-import cajero.Gestionador;
+import cajero.Cuenta;
+import cajero.Evento;
+import cajero.GestorCuenta;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,20 +29,47 @@ public class PanelOpciones extends javax.swing.JPanel {
     /**
      * Creates new form PanelOpciones
      */
-    public PanelOpciones(Gestionador gestionador, JFrame panelPrincipal) {
+    public PanelOpciones(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();
-        panelPrincipal.getContentPane().removeAll(); 
+        panelPrincipal.getContentPane().removeAll();
         panelPrincipal.getContentPane().add(this, BorderLayout.CENTER);
         panelPrincipal.getContentPane().revalidate();
         panelPrincipal.getContentPane().repaint();
         panelPrincipal.pack();
 
+        List<Cuenta> cuentas = gestionador.getCuentas();
+        Cuenta[] listaCuentas = new Cuenta[cuentas.size()];
+        for (int i = 0; i < cuentas.size(); i++) {
+            listaCuentas[i] = cuentas.get(i);
+        }
+        DefaultTableModel modeloTabla = (DefaultTableModel) jtRegistro.getModel();
+        jcbSeleccionarCuenta.setModel(new DefaultComboBoxModel(listaCuentas));
+        
+        jcbSeleccionarCuenta.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Cuenta cuenta = (Cuenta) jcbSeleccionarCuenta.getSelectedItem();
+                
+                modeloTabla.setRowCount(0);
+                List<Evento> eventos = gestionador.getEventos(cuenta.getNroCuenta());
+                
+                for (int i = 0; i < eventos.size(); i++) {
+                    Evento evento = eventos.get(i);
+                    String[] filaEvento = new String[4];
+                    filaEvento[0] = evento.getFecha();
+                    filaEvento[1] = evento.getDescripcion();
+                    filaEvento[2] = evento.getMonto();
+                    filaEvento[3] = evento.getSaldo();
+                    modeloTabla.addRow(filaEvento);
+                }
+
+            }
+        });
+
         btnConsultarSaldo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarSalida();
-                String saldo = gestionador.saldoDisponible();
-                jtaResultados.append(saldo);
+                PanelConsultarSaldo panelConsultarSaldo = new PanelConsultarSaldo(gestionador, PanelOpciones.this, modeloTabla, panelPrincipal);
             }
 
         });
@@ -43,8 +77,8 @@ public class PanelOpciones extends javax.swing.JPanel {
         btnRetirar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarSalida();
-                PanelRetirar panelRetirar = new PanelRetirar(gestionador, PanelOpciones.this, jtaResultados, panelPrincipal);
+
+                PanelDivisaRetirar panelDepositarDivisa = new PanelDivisaRetirar(gestionador, PanelOpciones.this, modeloTabla, panelPrincipal);
             }
 
         });
@@ -52,8 +86,9 @@ public class PanelOpciones extends javax.swing.JPanel {
         btnDepositar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarSalida();
-                PanelDepositar panelDepositar = new PanelDepositar(gestionador, PanelOpciones.this, jtaResultados, panelPrincipal);
+
+                PanelDivisaDepositar panelDepositarDivisa = new PanelDivisaDepositar(gestionador, PanelOpciones.this, modeloTabla, panelPrincipal);
+
             }
 
         });
@@ -61,8 +96,8 @@ public class PanelOpciones extends javax.swing.JPanel {
         btnTransferir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarSalida();
-                PanelTransferir panelTransferir = new PanelTransferir(gestionador, PanelOpciones.this, jtaResultados, panelPrincipal);
+
+                PanelDivisaTransferir panelDepositarDivisa = new PanelDivisaTransferir(gestionador, PanelOpciones.this, modeloTabla, panelPrincipal);
             }
 
         });
@@ -70,24 +105,29 @@ public class PanelOpciones extends javax.swing.JPanel {
         btnCambiarContrasena.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarSalida();
-                PanelCambioContrasena panelCambiarContrasena = new PanelCambioContrasena(gestionador, PanelOpciones.this, jtaResultados, panelPrincipal);
+
+                PanelCambioContrasena panelCambiarContrasena = new PanelCambioContrasena(gestionador, PanelOpciones.this, modeloTabla, panelPrincipal);
             }
         });
-        
+
+        btnCrearCuentaAdicional.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PanelCrearCuentaAdicional panelCrearCuentaAdicional = new PanelCrearCuentaAdicional(gestionador, PanelOpciones.this, modeloTabla, panelPrincipal);
+
+            }
+
+        });
+
         btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarSalida();
+
                 PanelSesionInicio principal = new PanelSesionInicio(gestionador, panelPrincipal);
                 panelPrincipal.add(principal, BorderLayout.PAGE_START);
             }
         });
-    }
 
-    private void limpiarSalida() {
-        jtaResultados.selectAll();
-        jtaResultados.replaceSelection(null);
     }
 
     /**
@@ -106,9 +146,12 @@ public class PanelOpciones extends javax.swing.JPanel {
         btnDepositar = new javax.swing.JButton();
         btnTransferir = new javax.swing.JButton();
         btnCambiarContrasena = new javax.swing.JButton();
+        btnCrearCuentaAdicional = new javax.swing.JButton();
+        jcbSeleccionarCuenta = new javax.swing.JComboBox<>();
+        lblExtracto = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtaResultados = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtRegistro = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -124,34 +167,44 @@ public class PanelOpciones extends javax.swing.JPanel {
 
         btnCambiarContrasena.setText("Cambiar Contrasena");
 
+        btnCrearCuentaAdicional.setText("Abrir Cuenta Adicional");
+
+        lblExtracto.setText("Extracto");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(163, 163, 163)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnDepositar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRetirar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnConsultarSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCambiarContrasena))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(30, 30, 30))
+                        .addComponent(btnCrearCuentaAdicional)
+                        .addGap(61, 61, 61)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblExtracto)
+                            .addComponent(jcbSeleccionarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnCambiarContrasena))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnDepositar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnRetirar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnConsultarSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 377, Short.MAX_VALUE)
+                        .addComponent(btnSalir)
+                        .addGap(27, 27, 27))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnConsultarSaldo, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnConsultarSaldo)
+                    .addComponent(btnSalir))
                 .addGap(21, 21, 21)
                 .addComponent(btnRetirar)
                 .addGap(18, 18, 18)
@@ -160,30 +213,52 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addComponent(btnTransferir)
                 .addGap(18, 18, 18)
                 .addComponent(btnCambiarContrasena)
-                .addGap(26, 26, 26))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblExtracto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jcbSeleccionarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(btnCrearCuentaAdicional)))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        add(jPanel1, java.awt.BorderLayout.LINE_END);
+        add(jPanel1, java.awt.BorderLayout.NORTH);
 
-        jtaResultados.setColumns(20);
-        jtaResultados.setRows(5);
-        jScrollPane1.setViewportView(jtaResultados);
+        jtRegistro.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Fecha", "Descripcion", "Monto", "Saldo"
+            }
+        ));
+        jScrollPane2.setViewportView(jtRegistro);
+        if (jtRegistro.getColumnModel().getColumnCount() > 0) {
+            jtRegistro.getColumnModel().getColumn(1).setPreferredWidth(250);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 751, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+            .addGap(0, 439, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         add(jPanel2, java.awt.BorderLayout.SOUTH);
@@ -193,13 +268,16 @@ public class PanelOpciones extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCambiarContrasena;
     private javax.swing.JButton btnConsultarSaldo;
+    private javax.swing.JButton btnCrearCuentaAdicional;
     private javax.swing.JButton btnDepositar;
     private javax.swing.JButton btnRetirar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransferir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jtaResultados;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcbSeleccionarCuenta;
+    private javax.swing.JTable jtRegistro;
+    private javax.swing.JLabel lblExtracto;
     // End of variables declaration//GEN-END:variables
 }

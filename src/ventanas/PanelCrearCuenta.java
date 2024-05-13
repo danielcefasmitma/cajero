@@ -4,23 +4,28 @@
  */
 package ventanas;
 
-import cajero.Gestionador;
+import cajero.Usuario;
+import cajero.GestorCuenta;
+import cajero.Hora;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Daniel
  */
-public class PanelCrearCuenta extends javax.swing.JPanel {
+public class PanelCrearCuenta extends javax.swing.JPanel implements ItemListener {
 
     /**
      * Creates new form PanelCrearCuenta
      */
-    public PanelCrearCuenta(Gestionador gestionador, JFrame panelPrincipal) {
+    public PanelCrearCuenta(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();
         panelPrincipal.getContentPane().removeAll();
         panelPrincipal.getContentPane().add(this, BorderLayout.PAGE_START);
@@ -32,17 +37,19 @@ public class PanelCrearCuenta extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombreUsuario = jtfNombreUsuario.getText();
-                String nombreTitular = jtfNombreCompleto.getText();
-                boolean existeUsuario = gestionador.existeUsuario(nombreUsuario);
+                String nombreTitular = jtfNombreCompleto.getText();               
                 char[] contrasena = jpwNuevaContrasena.getPassword();
                 char[] confirmacionContrasena = jpwConfirmacionContrasena.getPassword();
-                boolean contrasenasCoinciden = gestionador.contrasenasCoinciden(contrasena, confirmacionContrasena);
+                String nroCuenta = lblNroCuenta.getText();
+                String divisa = (String)jcbTipoCuenta.getSelectedItem();
+                boolean existeUsuario = gestionador.existeUsuario(nombreUsuario);
+                boolean contrasenasCoinciden = gestionador.contrasenasCoinciden(String.copyValueOf(contrasena), String.copyValueOf(confirmacionContrasena));
                 
                 if(!existeUsuario){                    
                    if(contrasenasCoinciden){
-                       gestionador.crearCuenta(nombreUsuario, nombreTitular, contrasena);
-                       jtaSalida.append("Se ha creado la cuenta.");
-                        jtaSalida.append("Se ha creado la cuenta.");
+                       String montoInicial = JOptionPane.showInputDialog(null, "Depositar Monto Inicial", "Monto Inicial", JOptionPane.WARNING_MESSAGE);
+                       gestionador.crearCuenta(new Usuario(nombreUsuario, nombreTitular, String.copyValueOf(contrasena), nroCuenta, divisa, montoInicial));                       
+                       jtaSalida.append("Se ha creado la cuenta:" + lblNroCuenta.getText());                     
                    }else{
                        jtaSalida.append("Las contrasenas no coinciden.");
                    }
@@ -58,6 +65,14 @@ public class PanelCrearCuenta extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 PanelSesionInicio principal = new PanelSesionInicio(gestionador, panelPrincipal);
                 panelPrincipal.add(principal, BorderLayout.PAGE_START);
+            }
+        });
+        
+        jcbTipoCuenta.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                lblNroCuenta.setText(""+gestionador.generarNumeroDeCuenta());
+                
             }
         });
     }
@@ -83,6 +98,10 @@ public class PanelCrearCuenta extends javax.swing.JPanel {
         lblConfirmacionContrasena = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtaSalida = new javax.swing.JTextArea();
+        jcbTipoCuenta = new javax.swing.JComboBox<>();
+        lblTipoDeCuenta = new javax.swing.JLabel();
+        lblNroCuenta = new javax.swing.JLabel();
+        lblTituloNroCuenta = new javax.swing.JLabel();
 
         btnCrearCuenta.setText("Crear Cuenta");
 
@@ -100,34 +119,54 @@ public class PanelCrearCuenta extends javax.swing.JPanel {
         jtaSalida.setRows(5);
         jScrollPane1.setViewportView(jtaSalida);
 
+        jcbTipoCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bolivianos", "Dolares", "Euros" }));
+
+        lblTipoDeCuenta.setText("Tipo de Cuenta");
+
+        lblNroCuenta.setText("0000000000000000");
+        lblNroCuenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+
+        lblTituloNroCuenta.setText("Nro. Cuenta");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
+                .addContainerGap(116, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jtfNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalir)
                         .addGap(37, 37, 37))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jpwNuevaContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtfNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jpwConfirmacionContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblNombreCompleto)
                             .addComponent(lblNuevaContrasena)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnCrearCuenta)
-                                .addComponent(lblConfirmacionContrasena))
                             .addComponent(lblNombreUsuario))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(174, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(131, 131, 131)
+                .addComponent(btnCrearCuenta)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTituloNroCuenta)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblNroCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTipoDeCuenta, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblConfirmacionContrasena, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jpwConfirmacionContrasena, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addComponent(jcbTipoCuenta, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(174, 174, 174))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,19 +179,27 @@ public class PanelCrearCuenta extends javax.swing.JPanel {
                 .addComponent(lblNombreUsuario)
                 .addGap(21, 21, 21)
                 .addComponent(jtfNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNombreCompleto)
                 .addGap(18, 18, 18)
                 .addComponent(jpwNuevaContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNuevaContrasena)
                 .addGap(18, 18, 18)
                 .addComponent(jpwConfirmacionContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblConfirmacionContrasena)
-                .addGap(26, 26, 26)
+                .addGap(28, 28, 28)
+                .addComponent(lblTipoDeCuenta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbTipoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTituloNroCuenta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(btnCrearCuenta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -163,6 +210,7 @@ public class PanelCrearCuenta extends javax.swing.JPanel {
     private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnSalir;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcbTipoCuenta;
     private javax.swing.JPasswordField jpwConfirmacionContrasena;
     private javax.swing.JPasswordField jpwNuevaContrasena;
     private javax.swing.JTextArea jtaSalida;
@@ -171,6 +219,14 @@ public class PanelCrearCuenta extends javax.swing.JPanel {
     private javax.swing.JLabel lblConfirmacionContrasena;
     private javax.swing.JLabel lblNombreCompleto;
     private javax.swing.JLabel lblNombreUsuario;
+    private javax.swing.JLabel lblNroCuenta;
     private javax.swing.JLabel lblNuevaContrasena;
+    private javax.swing.JLabel lblTipoDeCuenta;
+    private javax.swing.JLabel lblTituloNroCuenta;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

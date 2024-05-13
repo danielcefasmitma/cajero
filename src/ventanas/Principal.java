@@ -1,10 +1,10 @@
-/*
+/* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ventanas;
 
-import cajero.Gestionador;
+import cajero.GestorCuenta;
 import java.awt.BorderLayout;
 
 /**
@@ -16,10 +16,10 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Contenedor
      */
-    private Gestionador gestionador;
+    private GestorCuenta gestionador;
 
     public Principal() {
-        gestionador = new Gestionador();
+        gestionador = new GestorCuenta();
         initComponents();
         getContentPane().add(new PanelSesionInicio(gestionador, this));
 

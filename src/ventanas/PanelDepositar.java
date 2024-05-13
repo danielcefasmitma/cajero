@@ -4,13 +4,20 @@
  */
 package ventanas;
 
-import cajero.Gestionador;
+import cajero.Cuenta;
+import cajero.Evento;
+import cajero.GestorCuenta;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,25 +28,53 @@ public class PanelDepositar extends javax.swing.JPanel {
     /**
      * Creates new form PanelDepositar
      */
-    public PanelDepositar(Gestionador gestionador, Container panelOpciones, JTextArea areaTexto, JFrame panelPrincipal) {
+    public PanelDepositar(String divisa, GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();
-        panelOpciones.remove(0);
-        panelOpciones.add(this, BorderLayout.PAGE_START);
+        panelOpciones.remove(1);
+        panelOpciones.add(this, BorderLayout.NORTH);
         panelOpciones.revalidate();
         panelOpciones.repaint();
         panelPrincipal.pack();
+        lblMontoADepositar.setText("Monto a Depositar" + "(" + divisa + ")");
+
+        List<Cuenta> cuentas = gestionador.getCuentas();
+        Cuenta[] listaCuentas = new Cuenta[cuentas.size()];
+        for (int i = 0; i < cuentas.size(); i++) {
+            listaCuentas[i] = cuentas.get(i);
+        }
+
+        jcbSeleccionarCuenta.setModel(new DefaultComboBoxModel(listaCuentas));
+        jcbSeleccionarCuenta.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Cuenta cuenta = (Cuenta) jcbSeleccionarCuenta.getSelectedItem();
+                lblMonto.setText(gestionador.saldoDisponible(cuenta.getNroCuenta()));
+                lblDivisaSaldo.setText(cuenta.getDivisa());
+            }
+        });
         
         btnDepositar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                areaTexto.selectAll();
-                areaTexto.replaceSelection(null);
+                registro.setRowCount(0);
                 String monto = jtfMonto.getText();
-                boolean depositado = gestionador.depositar(Integer.parseInt(monto));
-                if (depositado) {
-                    areaTexto.append("Se deposito satisfactoriamente: " + monto);
-                } else {
-                    areaTexto.append("Ocurrio un problema al dopositar");
+
+                if (Double.parseDouble(monto) > 0) {
+                    Cuenta cuenta = (Cuenta) jcbSeleccionarCuenta.getSelectedItem();
+                    gestionador.depositar(divisa.toLowerCase(), Double.parseDouble(monto), cuenta.getNroCuenta());
+                    gestionador.crearEvento(new Evento(cuenta.getNroCuenta(), "Se realizó un deposito.", monto, gestionador.saldoDisponible(cuenta.getNroCuenta())));
+                    List<Evento> eventos = gestionador.getEventos(cuenta.getNroCuenta());
+                    for (int i = 0; i < eventos.size(); i++) {
+                        Evento evento = eventos.get(i);
+                        String[] filaEvento = new String[4];
+                        filaEvento[0] = evento.getFecha();
+                        filaEvento[1] = evento.getDescripcion();
+                        filaEvento[2] = evento.getMonto();
+                        filaEvento[3] = evento.getSaldo();
+                        registro.addRow(filaEvento);
+                    }
+
+                    lblMonto.setText(gestionador.saldoDisponible(cuenta.getNroCuenta()));
                 }
             }
 
@@ -66,37 +101,83 @@ public class PanelDepositar extends javax.swing.JPanel {
         btnDepositar = new javax.swing.JButton();
         jtfMonto = new javax.swing.JTextField();
         btnAtras = new javax.swing.JButton();
+        jcbSeleccionarCuenta = new javax.swing.JComboBox<>();
+        lblEscogerCuenta = new javax.swing.JLabel();
+        lblMontoADepositar = new javax.swing.JLabel();
+        lblDivisa = new javax.swing.JLabel();
+        lblSaldoDisponible = new javax.swing.JLabel();
+        lblMonto = new javax.swing.JLabel();
+        lblDivisaSaldo = new javax.swing.JLabel();
 
         btnDepositar.setText("Depositar");
 
         btnAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/atras.png"))); // NOI18N
+
+        lblEscogerCuenta.setText("Cuenta de Ahorro");
+
+        lblMontoADepositar.setText("Monto a Depositar");
+
+        lblSaldoDisponible.setText("Saldo Disponible");
+
+        lblMonto.setText("000000000000");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(114, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDepositar)
+                .addGap(74, 74, 74)
+                .addComponent(btnAtras)
+                .addGap(68, 68, 68))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(171, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnDepositar)
-                        .addGap(152, 152, 152))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnAtras)
-                            .addComponent(jtfMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(88, 88, 88))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEscogerCuenta)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblMontoADepositar)
+                                    .addComponent(lblSaldoDisponible))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblMonto)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblDivisaSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblDivisa, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 124, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbSeleccionarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(197, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(86, 86, 86)
+                .addGap(33, 33, 33)
+                .addComponent(lblEscogerCuenta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbSeleccionarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSaldoDisponible)
+                    .addComponent(lblMonto)
+                    .addComponent(lblDivisaSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMontoADepositar)
+                    .addComponent(lblDivisa, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtfMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnDepositar)
-                .addGap(30, 30, 30)
-                .addComponent(btnAtras)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAtras)
+                    .addComponent(btnDepositar))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -104,6 +185,13 @@ public class PanelDepositar extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnDepositar;
+    private javax.swing.JComboBox<String> jcbSeleccionarCuenta;
     private javax.swing.JTextField jtfMonto;
+    private javax.swing.JLabel lblDivisa;
+    private javax.swing.JLabel lblDivisaSaldo;
+    private javax.swing.JLabel lblEscogerCuenta;
+    private javax.swing.JLabel lblMonto;
+    private javax.swing.JLabel lblMontoADepositar;
+    private javax.swing.JLabel lblSaldoDisponible;
     // End of variables declaration//GEN-END:variables
 }

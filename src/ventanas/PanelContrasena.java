@@ -4,7 +4,7 @@
  */
 package ventanas;
 
-import cajero.Gestionador;
+import cajero.GestorCuenta;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -20,7 +20,7 @@ public class PanelContrasena extends javax.swing.JPanel {
     /**
      * Creates new form InicioSesion
      */
-    public PanelContrasena(Gestionador gestionador, JFrame panelPrincipal) {
+    public PanelContrasena(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();
         panelPrincipal.getContentPane().removeAll(); 
         panelPrincipal.getContentPane().add(this, BorderLayout.CENTER);

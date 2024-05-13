@@ -16,25 +16,42 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnTranferir" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="148" max="-2" attributes="0"/>
+          </Group>
           <Group type="102" attributes="0">
-              <EmptySpace min="0" pref="141" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="77" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblMonto" min="-2" max="-2" attributes="0"/>
-                          <Component id="jtfMontoATransferir" min="-2" pref="146" max="-2" attributes="0"/>
-                          <Component id="lblNroCuenta" min="-2" max="-2" attributes="0"/>
-                          <Component id="jtfNroCuenta" min="-2" pref="146" max="-2" attributes="0"/>
+                          <Component id="lblMontoATransferir" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                              <Component id="btnTranferir" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtfMontoATransferir" min="-2" pref="146" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblDivisa" min="-2" pref="71" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="28" max="32767" attributes="0"/>
                       <Component id="btnAtras" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jtfNroCuentaAbonado" min="-2" pref="146" max="-2" attributes="0"/>
+                          <Component id="lblCuentaDebito" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblCuentaAbono" min="-2" max="-2" attributes="0"/>
+                          <Component id="jcbSeleccionarCuenta" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblSaldoDisponible" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblMonto" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblDivisaSaldo" min="-2" pref="77" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -42,20 +59,40 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-              <Component id="jtfNroCuenta" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblNroCuenta" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jtfMontoATransferir" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblMonto" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnAtras" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Component id="lblCuentaDebito" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="7" max="32767" attributes="0"/>
+                      <Component id="jcbSeleccionarCuenta" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblSaldoDisponible" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblMonto" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDivisaSaldo" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="49" max="32767" attributes="0"/>
+                      <Component id="lblCuentaAbono" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jtfNroCuentaAbonado" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblDivisa" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="jtfMontoATransferir" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblMontoATransferir" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Component id="btnTranferir" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
-              <Component id="btnAtras" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -66,16 +103,11 @@
         <Property name="text" type="java.lang.String" value="Transferir"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jtfNroCuenta">
+    <Component class="javax.swing.JTextField" name="jtfNroCuentaAbonado">
     </Component>
     <Component class="javax.swing.JTextField" name="jtfMontoATransferir">
     </Component>
-    <Component class="javax.swing.JLabel" name="lblNroCuenta">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Ingrese el Nro Cuenta"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblMonto">
+    <Component class="javax.swing.JLabel" name="lblMontoATransferir">
       <Properties>
         <Property name="text" type="java.lang.String" value="Monto a Transferir"/>
       </Properties>
@@ -86,6 +118,40 @@
           <Image iconType="3" name="/imagenes/atras.png"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jcbSeleccionarCuenta">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblCuentaDebito">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cuenta Debito"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblCuentaAbono">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nro: Cuenta de Abono"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDivisa">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSaldoDisponible">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Saldo Disponible:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblMonto">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0000000000"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDivisaSaldo">
     </Component>
   </SubComponents>
 </Form>

@@ -4,13 +4,16 @@
  */
 package ventanas;
 
-import cajero.Gestionador;
+import cajero.Evento;
+import cajero.GestorCuenta;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,7 +24,7 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
     /**
      * Creates new form PanelCambioContrasena
      */
-    public PanelCambioContrasena(Gestionador gestionador, Container panelOpciones, JTextArea areaTexto, JFrame panelPrincipal) {
+    public PanelCambioContrasena(GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();
         panelOpciones.remove(0);
         panelOpciones.add(this, BorderLayout.PAGE_START);
@@ -40,9 +43,9 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
                 boolean contrasenaCoincide = gestionador.contrasenaCoincide(antiguaCont);
                 boolean nuevaContrasenaCoincide = gestionador.cambiarContrasena(nuevaCont, confirmacionCont);
                 if (contrasenaCoincide && nuevaContrasenaCoincide) {
-                    areaTexto.append("Se ha cambiado con exito la contrasena");
+                    lblCambioContrasena.setText("Se cambió la Contrasena con Existo.");
                 } else {
-                    areaTexto.append("A ocurrido un error al cambiar la contrasena");
+                    lblCambioContrasena.setText("No se pudo realizar");
                 }
             }
 
@@ -73,6 +76,7 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
         lblNuevaContrasena = new javax.swing.JLabel();
         lblConfirmaNuevaContrasena = new javax.swing.JLabel();
         btnAtras = new javax.swing.JButton();
+        lblCambioContrasena = new javax.swing.JLabel();
 
         btnConfirmaCambio.setText("Confirma Cambio");
 
@@ -91,7 +95,7 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(79, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblConfirmaNuevaContrasena)
+                    .addComponent(lblCambioContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNuevaContrasena)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +107,8 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
                         .addComponent(btnAtras))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(btnConfirmaCambio)
-                        .addComponent(jNuevaContrasenaConfirmacion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblConfirmaNuevaContrasena))
+                    .addComponent(jNuevaContrasenaConfirmacion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
@@ -125,8 +130,10 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblConfirmaNuevaContrasena)
                 .addGap(18, 18, 18)
+                .addComponent(lblCambioContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(btnConfirmaCambio)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -137,6 +144,7 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
     private javax.swing.JPasswordField jAntiguaConstrasena;
     private javax.swing.JPasswordField jNuevaContrasena;
     private javax.swing.JPasswordField jNuevaContrasenaConfirmacion;
+    private javax.swing.JLabel lblCambioContrasena;
     private javax.swing.JLabel lblConfirmaNuevaContrasena;
     private javax.swing.JLabel lblConstrasenaAntigua;
     private javax.swing.JLabel lblNuevaContrasena;

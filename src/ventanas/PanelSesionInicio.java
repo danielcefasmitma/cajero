@@ -4,7 +4,7 @@
  */
 package ventanas;
 
-import cajero.Gestionador;
+import cajero.GestorCuenta;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import cajero.*;
@@ -22,9 +22,9 @@ public class PanelSesionInicio extends javax.swing.JPanel {
     /**
      * Creates new form Principal
      */
-    private Gestionador gestionador;
+    private GestorCuenta gestionador;
 
-    public PanelSesionInicio(Gestionador gestionador, JFrame panelPrincipal) {
+    public PanelSesionInicio(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();
         panelPrincipal.getContentPane().removeAll(); 
         panelPrincipal.getContentPane().add(this, BorderLayout.CENTER);
@@ -37,11 +37,9 @@ public class PanelSesionInicio extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 String nombreUsuario = jtNombreUsuario.getText();
                 boolean existeUsuario = gestionador.existeUsuario(nombreUsuario);
-
                 if (existeUsuario) {
+                    gestionador.extraerCuentaUsuario(nombreUsuario);
                     PanelContrasena inicioSesion = new PanelContrasena(gestionador, panelPrincipal);
-                }else{
-  
                 }
             }
 
