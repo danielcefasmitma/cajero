@@ -4,6 +4,7 @@
  */
 package ventanas;
 
+import cajero.Evento;
 import cajero.Usuario;
 import cajero.GestorCuenta;
 import cajero.Hora;
@@ -48,13 +49,14 @@ public class PanelCrearCuenta extends javax.swing.JPanel implements ItemListener
                 if(!existeUsuario){                    
                    if(contrasenasCoinciden){
                        String montoInicial = JOptionPane.showInputDialog(null, "Depositar Monto Inicial", "Monto Inicial", JOptionPane.WARNING_MESSAGE);
-                       gestionador.crearCuenta(new Usuario(nombreUsuario, nombreTitular, String.copyValueOf(contrasena), nroCuenta, divisa, montoInicial));                       
-                       jtaSalida.append("Se ha creado la cuenta:" + lblNroCuenta.getText());                     
+                       gestionador.crearCuenta(new Usuario(nombreUsuario, nombreTitular, String.copyValueOf(contrasena), nroCuenta, divisa, montoInicial));
+                       gestionador.crearEvento(new Evento(nroCuenta, "Se creó cuenta", montoInicial, montoInicial));
+                       lblAviso.setText("Cuenta se creó exitosamente.");
                    }else{
-                       jtaSalida.append("Las contrasenas no coinciden.");
+                       lblAviso.setText("Contraseñas nos coinciden.");
                    }
                 }else{
-                    jtaSalida.append("El usuario ya existe");
+                    lblAviso.setText("El usuario ya existe.");
                 }
                     
             }
@@ -96,112 +98,155 @@ public class PanelCrearCuenta extends javax.swing.JPanel implements ItemListener
         lblNombreCompleto = new javax.swing.JLabel();
         lblNuevaContrasena = new javax.swing.JLabel();
         lblConfirmacionContrasena = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtaSalida = new javax.swing.JTextArea();
         jcbTipoCuenta = new javax.swing.JComboBox<>();
         lblTipoDeCuenta = new javax.swing.JLabel();
         lblNroCuenta = new javax.swing.JLabel();
         lblTituloNroCuenta = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblAviso = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(134, 190, 225));
+
+        btnCrearCuenta.setBackground(new java.awt.Color(0, 174, 237));
+        btnCrearCuenta.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        btnCrearCuenta.setForeground(new java.awt.Color(255, 255, 255));
         btnCrearCuenta.setText("Crear Cuenta");
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/atras.png"))); // NOI18N
 
+        lblNombreUsuario.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreUsuario.setText("Nombre Usuario");
 
+        lblNombreCompleto.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        lblNombreCompleto.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreCompleto.setText("Nombre Completo");
 
+        lblNuevaContrasena.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        lblNuevaContrasena.setForeground(new java.awt.Color(255, 255, 255));
         lblNuevaContrasena.setText("Contrasena");
 
+        lblConfirmacionContrasena.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        lblConfirmacionContrasena.setForeground(new java.awt.Color(255, 255, 255));
         lblConfirmacionContrasena.setText("Confirma Contrasena");
 
-        jtaSalida.setColumns(20);
-        jtaSalida.setRows(5);
-        jScrollPane1.setViewportView(jtaSalida);
-
+        jcbTipoCuenta.setFont(new java.awt.Font("Lucida Console", 1, 14)); // NOI18N
+        jcbTipoCuenta.setForeground(new java.awt.Color(51, 51, 51));
         jcbTipoCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bolivianos", "Dolares", "Euros" }));
 
+        lblTipoDeCuenta.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        lblTipoDeCuenta.setForeground(new java.awt.Color(255, 255, 255));
         lblTipoDeCuenta.setText("Tipo de Cuenta");
 
+        lblNroCuenta.setFont(new java.awt.Font("Lucida Console", 1, 14)); // NOI18N
+        lblNroCuenta.setForeground(new java.awt.Color(255, 255, 255));
         lblNroCuenta.setText("0000000000000000");
         lblNroCuenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
+        lblTituloNroCuenta.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        lblTituloNroCuenta.setForeground(new java.awt.Color(255, 255, 255));
         lblTituloNroCuenta.setText("Nro. Cuenta");
+
+        jPanel1.setBackground(new java.awt.Color(4, 86, 160));
+
+        jLabel1.setFont(new java.awt.Font("Lucida Console", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Crear Cuenta");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        lblAviso.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        lblAviso.setForeground(new java.awt.Color(255, 0, 51));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(116, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(86, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jtfNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addComponent(btnCrearCuenta)
+                                .addGap(113, 113, 113))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(62, 62, 62)))
                         .addComponent(btnSalir)
-                        .addGap(37, 37, 37))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpwNuevaContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtfNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblTituloNroCuenta)
+                            .addComponent(lblTipoDeCuenta)
+                            .addComponent(lblConfirmacionContrasena)
+                            .addComponent(lblNroCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                            .addComponent(jcbTipoCuenta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jpwConfirmacionContrasena)
+                            .addComponent(jpwNuevaContrasena)
+                            .addComponent(jtfNombreCompleto)
                             .addComponent(lblNombreCompleto)
                             .addComponent(lblNuevaContrasena)
-                            .addComponent(lblNombreUsuario))
-                        .addContainerGap(174, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(btnCrearCuenta)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTituloNroCuenta)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(lblNroCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTipoDeCuenta, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblConfirmacionContrasena, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jpwConfirmacionContrasena, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                        .addComponent(jcbTipoCuenta, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(174, 174, 174))
+                            .addComponent(lblNombreUsuario)
+                            .addComponent(jtfNombreUsuario))
+                        .addContainerGap(129, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNombreUsuario)
-                .addGap(21, 21, 21)
-                .addComponent(jtfNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNombreCompleto)
-                .addGap(18, 18, 18)
-                .addComponent(jpwNuevaContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNuevaContrasena)
-                .addGap(18, 18, 18)
-                .addComponent(jpwConfirmacionContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblConfirmacionContrasena)
-                .addGap(28, 28, 28)
-                .addComponent(lblTipoDeCuenta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbTipoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblTituloNroCuenta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(btnCrearCuenta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jtfNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNombreUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addComponent(jtfNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNombreCompleto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(jpwNuevaContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNuevaContrasena)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(jpwConfirmacionContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblConfirmacionContrasena)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addComponent(lblTipoDeCuenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbTipoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTituloNroCuenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(btnCrearCuenta))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir)))
+                .addGap(42, 42, 42))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -209,13 +254,14 @@ public class PanelCrearCuenta extends javax.swing.JPanel implements ItemListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JComboBox<String> jcbTipoCuenta;
     private javax.swing.JPasswordField jpwConfirmacionContrasena;
     private javax.swing.JPasswordField jpwNuevaContrasena;
-    private javax.swing.JTextArea jtaSalida;
     private javax.swing.JTextField jtfNombreCompleto;
     private javax.swing.JTextField jtfNombreUsuario;
+    private javax.swing.JLabel lblAviso;
     private javax.swing.JLabel lblConfirmacionContrasena;
     private javax.swing.JLabel lblNombreCompleto;
     private javax.swing.JLabel lblNombreUsuario;

@@ -74,41 +74,80 @@ public class PanelDivisaDepositar extends javax.swing.JPanel {
         btnDepositarDolares = new javax.swing.JButton();
         btnDepositarEuros = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        lblDivisaADepositar = new javax.swing.JLabel();
 
-        btnDepositarBolivianos.setText("Bolivianos (bs)");
+        setBackground(new java.awt.Color(134, 190, 225));
 
+        btnDepositarBolivianos.setBackground(new java.awt.Color(0, 174, 237));
+        btnDepositarBolivianos.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        btnDepositarBolivianos.setForeground(new java.awt.Color(255, 255, 255));
+        btnDepositarBolivianos.setText("Bolivianos (BS)");
+
+        btnDepositarDolares.setBackground(new java.awt.Color(0, 174, 237));
+        btnDepositarDolares.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        btnDepositarDolares.setForeground(new java.awt.Color(255, 255, 255));
         btnDepositarDolares.setText("Dolares(USD)");
 
+        btnDepositarEuros.setBackground(new java.awt.Color(0, 174, 237));
+        btnDepositarEuros.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
+        btnDepositarEuros.setForeground(new java.awt.Color(255, 255, 255));
         btnDepositarEuros.setText("Euros(€)");
 
         btnAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/atras.png"))); // NOI18N
+
+        jPanel1.setBackground(new java.awt.Color(4, 86, 160));
+
+        lblDivisaADepositar.setFont(new java.awt.Font("Lucida Console", 1, 24)); // NOI18N
+        lblDivisaADepositar.setForeground(new java.awt.Color(255, 255, 255));
+        lblDivisaADepositar.setText("Selecciona la divisa a Depositar");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
+                .addComponent(lblDivisaADepositar)
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(lblDivisaADepositar)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnDepositarEuros, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDepositarDolares, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDepositarBolivianos, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnDepositarEuros, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnDepositarBolivianos, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                        .addComponent(btnDepositarDolares, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAtras)
-                .addGap(48, 48, 48))
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDepositarBolivianos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAtras))
-                .addGap(39, 39, 39)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(btnDepositarBolivianos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
                 .addComponent(btnDepositarDolares, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(btnDepositarEuros, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(61, 61, 61)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAtras)
+                    .addComponent(btnDepositarEuros, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -118,5 +157,7 @@ public class PanelDivisaDepositar extends javax.swing.JPanel {
     private javax.swing.JButton btnDepositarBolivianos;
     private javax.swing.JButton btnDepositarDolares;
     private javax.swing.JButton btnDepositarEuros;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDivisaADepositar;
     // End of variables declaration//GEN-END:variables
 }

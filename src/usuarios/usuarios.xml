@@ -1,69 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><usuarios>
     <usuario id="daniel87">
-        <nombreTitular>daniel cefas</nombreTitular>
-        <contrasena>106</contrasena>
+        <nombreTitular>Daniel Cefas Mitma</nombreTitular>
+        <contrasena>123</contrasena>
         <cuenta>
-            <nroCuenta>80789</nroCuenta>
+            <nroCuenta>26331250</nroCuenta>
+            <divisa>bolivianos</divisa>
+            <monto>184.0</monto>
+        </cuenta>
+        <cuenta>
+            <nroCuenta>28861338</nroCuenta>
             <divisa>dolares</divisa>
-            <monto>1080.3600000000001</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>432543</nroCuenta>
-            <divisa>euros</divisa>
-            <monto>10.0</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>23452345</nroCuenta>
-            <divisa>bolivianos</divisa>
-            <monto>3253.4400000000005</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>7777777</nroCuenta>
-            <divisa>bolivianos</divisa>
-            <monto>0</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>7777777</nroCuenta>
-            <divisa>bolivianos</divisa>
-            <monto>0</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>7777777</nroCuenta>
-            <divisa>bolivianos</divisa>
-            <monto>0</monto>
-        </cuenta>
-    </usuario>   
-    <usuario id="micaela1">
-        <nombreTitular>micaela gonzales</nombreTitular>
-        <contrasena>106</contrasena>
-        <cuenta>
-            <nroCuenta>234531</nroCuenta>
-            <divisa>dolares</divisa>
-            <monto>250.41999999999996</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>43532</nroCuenta>
-            <divisa>euros</divisa>
-            <monto>180.0</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>765756</nroCuenta>
-            <divisa>bolivianos</divisa>
-            <monto>3531.759999999999</monto>
+            <monto>2066.6</monto>
         </cuenta>
     </usuario>
-    <usuario id="king56">
-        <nombreTitular>Oscar Lopez</nombreTitular>
-        <contrasena>456</contrasena>
+    <usuario id="maria12">
+        <nombreTitular>Maria Gonzalez</nombreTitular>
+        <contrasena>321</contrasena>
         <cuenta>
-            <nroCuenta>20792200</nroCuenta>
-            <divisa>bolivianos</divisa>
-            <monto>89.6</monto>
+            <nroCuenta>22792474</nroCuenta>
+            <divisa>dolares</divisa>
+            <monto>130.0</monto>
         </cuenta>
         <cuenta>
-            <nroCuenta>21950342</nroCuenta>
-            <divisa>dolares</divisa>
-            <monto>1030.0</monto>
+            <nroCuenta>24374459</nroCuenta>
+            <divisa>euros</divisa>
+            <monto>43.0</monto>
         </cuenta>
     </usuario>
 </usuarios>

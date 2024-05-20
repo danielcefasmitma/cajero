@@ -35,10 +35,13 @@ public class GestorCuenta {
     private File directorioLog;
     private Document documentoXML;
     private Element perfilUsuario;
+    private Element cuentaActual;
+    private String nroCuenta;
 
     public GestorCuenta() {
         directorioUsuarios = new File(System.getProperty("user.dir") + "/src/usuarios/");
         directorioLog = new File(System.getProperty("user.dir") + "/src/logUsuarios/");
+
         if (!directorioUsuarios.exists()) {
             directorioUsuarios.mkdir();
         }
@@ -124,24 +127,23 @@ public class GestorCuenta {
         guardarCambiosEnXML(new File(directorioUsuarios + "/usuarios.xml"), documentoXML);
     }
 
-    public List<Evento> getEventos(String nrCuenta) {
-        List<Evento> listaLogs = new ArrayList<Evento>();
+    public List<Evento> getEventos() {
         Document documento = getDocumento(new File(directorioLog + "/logs.xml"));
-
         NodeList logs = documento.getElementsByTagName("log");
+        List<Evento> listaLogs = new ArrayList<Evento>();
         for (int i = 0; i < logs.getLength(); i++) {
             Node nodoLog = logs.item(i);
             Element log = (Element) nodoLog;
             String nroCuenta = log.getElementsByTagName("nroCuenta").item(0).getTextContent();
-            if (nroCuenta.equals(nrCuenta)) {
+            if (nroCuenta.equals(getNroCuenta())) {
                 String fecha = log.getElementsByTagName("fecha").item(0).getTextContent();
                 String descripcion = log.getElementsByTagName("descripcion").item(0).getTextContent();
                 String monto = log.getElementsByTagName("monto").item(0).getTextContent();
                 String saldo = log.getElementsByTagName("saldo").item(0).getTextContent();
-                listaLogs.add(new Evento(nroCuenta, descripcion, monto, saldo));
+                listaLogs.add(new Evento(getNroCuenta(), descripcion, monto, saldo));
             }
-
         }
+
         return listaLogs;
     }
 
@@ -170,7 +172,6 @@ public class GestorCuenta {
             generarDocumento(usuario, ruta);
 
         } else {
-            System.out.println("segunda opcion");
             anadirUsuario(usuario, ruta);
         }
     }
@@ -269,19 +270,21 @@ public class GestorCuenta {
     }
 
     public boolean existeUsuario(String nombreUsuario) {
-        Document documentoXML = getDocumento(new File(directorioUsuarios + "/usuarios.xml"));;
+        Document documentoXML = getDocumento(new File(directorioUsuarios + "/usuarios.xml"));
         String id = "";
-        NodeList listaCuentas = documentoXML.getElementsByTagName("usuario");
-        int numeroNodo = 0;
-        while (!id.equals(nombreUsuario) && numeroNodo < listaCuentas.getLength()) {
-            Node nodo = listaCuentas.item(numeroNodo);
-            if (nodo.getNodeType() == Node.ELEMENT_NODE) {
-                Element elemento = (Element) nodo;
-                id = elemento.getAttribute("id");
-            }
-            numeroNodo++;
-            System.out.println("el usuario es:" + id);
-        };
+        if(documentoXML != null){
+            
+            NodeList listaCuentas = documentoXML.getElementsByTagName("usuario");
+            int numeroNodo = 0;
+            while (!id.equals(nombreUsuario) && numeroNodo < listaCuentas.getLength()) {
+                Node nodo = listaCuentas.item(numeroNodo);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    Element elemento = (Element) nodo;
+                    id = elemento.getAttribute("id");
+                }
+                numeroNodo++;
+            };
+        }
 
         return id.equals(nombreUsuario);
 
@@ -297,24 +300,21 @@ public class GestorCuenta {
         return nuevaContrasena.equals(contrasenaActual);
     }
 
-    public String saldoDisponible(String numeroCuenta) {
-        List<Cuenta> cuentas = getCuentas();
-        String nroCuentaEncontrado = "";
-        String saldoDisponible = "";
-        for (int i = 0; !nroCuentaEncontrado.equals(numeroCuenta) && i < cuentas.size(); i++) {
-            nroCuentaEncontrado = cuentas.get(i).getNroCuenta();
-            saldoDisponible = cuentas.get(i).getMonto();
-        }
-        return saldoDisponible;
+    public String saldoDisponible() {
+        return cuentaActual.getElementsByTagName("monto").item(0).getTextContent();
     }
 
-    public void depositar(String divisa, double montoDeposito, String nroCuentaDeposito) {
-        double tasaCambio = getTasaCambio(divisa, getDivisa(nroCuentaDeposito));
-        double montoADepositar = tasaCambio * montoDeposito;
-        depositar(montoADepositar, nroCuentaDeposito);
+    public void depositar(String divisa, double montoDeposito) {//cuenta propia
+        double montoADepositar = getMontoConvertido(divisa, montoDeposito);
+        depositar(montoADepositar, getNroCuenta());
     }
 
-    public void depositar(double montoADepositar, String nroCuenta) {
+    public void depositar(String divisa, double montoDeposito, String nroCuenta) {// a otra cuenta
+        double montoADepositar = getMontoConvertido(divisa, montoDeposito, nroCuenta);
+        depositar(montoADepositar, nroCuenta);
+    }
+
+    private void depositar(double montoADepositar, String nroCuenta) {// solo deposito
         NodeList cuentas = perfilUsuario.getElementsByTagName("cuenta");
 
         for (int i = 0; i < cuentas.getLength(); i++) {
@@ -325,55 +325,41 @@ public class GestorCuenta {
                 double montoExistente = Double.parseDouble(montoNode.getTextContent());
                 montoExistente += montoADepositar;
                 montoNode.setTextContent(String.valueOf(montoExistente)); // Actualiza el nodo monto
-                System.out.println("Nuevo monto en bolivianos: " + montoExistente);
             }
         }
         guardarCambiosEnXML(new File(directorioUsuarios + "/usuarios.xml"), documentoXML);
 
     }
 
-    public void retirar(String divisa, double montoRetiro, String nrCuentaRetirar) {
-        double tasaCambio = getTasaCambio(divisa, getDivisa(nrCuentaRetirar));
-        double montoARetirar = tasaCambio * montoRetiro;
-        retirar(montoARetirar, nrCuentaRetirar);
+    public void retirar(String divisa, double montoRetiro) {
+        double montoARetirar = getMontoConvertido(divisa, montoRetiro);
+        retirar(montoARetirar);
     }
 
-    public void retirar(double montoARetirar, String nrCuentaRetirar) {
+    private void retirar(double montoARetirar) {
         NodeList cuentas = perfilUsuario.getElementsByTagName("cuenta");
 
         for (int i = 0; i < cuentas.getLength(); i++) {
             Element cuenta = (Element) cuentas.item(i);
             String nroCuentaAEncontrar = cuenta.getElementsByTagName("nroCuenta").item(0).getTextContent();
-            if (nroCuentaAEncontrar.equals(nrCuentaRetirar)) {
+            if (nroCuentaAEncontrar.equals(getNroCuenta())) {
                 Node montoNode = cuenta.getElementsByTagName("monto").item(0);
                 double montoExistente = Double.parseDouble(montoNode.getTextContent());
                 if (montoExistente >= montoARetirar) {
                     montoExistente -= montoARetirar;
                     montoNode.setTextContent(String.valueOf(montoExistente));
                 }
-                // Actualiza el nodo monto
-                System.out.println("Nuevo monto despues de retiro en bolivianos: " + montoExistente);
             }
         }
         guardarCambiosEnXML(new File(directorioUsuarios + "/usuarios.xml"), documentoXML);
     }
 
-    public void transferir(String divisa, String numCuentaOrigen, double montoATransferir, String numeroCuentaDestino) {
-        double tasaCambioRetiro = getTasaCambio(divisa, getDivisa(numCuentaOrigen));
-        double tasaCambioDeposito = getTasaCambio(divisa, getDivisa(numeroCuentaDestino));
-        System.out.println("---------------------------");
-        System.out.println("Divisa Origen:"+getDivisa(numCuentaOrigen));
-        System.out.println("Divisa destion: "+getDivisa(numeroCuentaDestino));
-        System.out.println("TasaCambioRetiro: " + tasaCambioRetiro);
-        System.out.println("TasaCambioDeposito: " + tasaCambioDeposito);
-        System.out.println("MontoARetirar: " + tasaCambioRetiro * montoATransferir);
-        System.out.println("MontoADepositar: " + tasaCambioDeposito * montoATransferir);
-
-        retirar(tasaCambioRetiro * montoATransferir, numCuentaOrigen);
+    public void transferir(String divisa, double montoATransferir, String numeroCuentaDestino) {
+        retirar(divisa, montoATransferir);
         perfilUsuario = getUsuario(numeroCuentaDestino);
-        depositar(tasaCambioDeposito * montoATransferir, numeroCuentaDestino);
+        depositar(divisa, montoATransferir, numeroCuentaDestino);
         guardarCambiosEnXML(new File(directorioUsuarios + "/usuarios.xml"), documentoXML);
-        perfilUsuario = getUsuario(numCuentaOrigen);
+        perfilUsuario = getUsuario(getNroCuenta());
     }
 
     private String getDivisa(String numeroCuenta) {
@@ -393,7 +379,6 @@ public class GestorCuenta {
                 }
             }
         }
-        System.out.println("divisa encontrada: " + divisa);
         return divisa;
     }
 
@@ -439,7 +424,6 @@ public class GestorCuenta {
     public boolean cambiarContrasena(char[] nuevaCont, char[] confirmacionCont) {
         boolean contrasenasCoinciden = contrasenasCoinciden(String.copyValueOf(nuevaCont), String.copyValueOf(confirmacionCont));
         if (contrasenasCoinciden) {
-            System.out.println("la contrasena es: " + perfilUsuario.getElementsByTagName("contrasena").item(0).getTextContent());
             perfilUsuario.getElementsByTagName("contrasena").item(0).setTextContent(String.copyValueOf(nuevaCont));
             guardarCambiosEnXML(new File(directorioUsuarios + "/usuarios.xml"), documentoXML);
         }
@@ -463,23 +447,78 @@ public class GestorCuenta {
         perfilUsuario = usuario;
     }
 
-    public List<Cuenta> getCuentas() {
-        List<Cuenta> listaCuentas = new ArrayList<Cuenta>();
+    public Cuenta[] getCuentas() {
         NodeList cuentas = perfilUsuario.getElementsByTagName("cuenta");
+        Cuenta[] listaCuentas = new Cuenta[cuentas.getLength()];
         for (int i = 0; i < cuentas.getLength(); i++) {
             Node nodoCuenta = cuentas.item(i);
             Element cuenta = (Element) nodoCuenta;
             String nroCuenta = cuenta.getElementsByTagName("nroCuenta").item(0).getTextContent();
             String divisa = cuenta.getElementsByTagName("divisa").item(0).getTextContent();
             String monto = cuenta.getElementsByTagName("monto").item(0).getTextContent();
-            listaCuentas.add(new Cuenta(nroCuenta, divisa, monto));
+            listaCuentas[i] = new Cuenta(nroCuenta, divisa, monto);
         }
         return listaCuentas;
     }
 
+    
+    public void establecerCuenta(String numeroCuenta) {
+        NodeList cuentas = perfilUsuario.getElementsByTagName("cuenta");
+        Element cuenta = null;
+        String nroCuenta = "";
+        for (int i = 0; !nroCuenta.equals(numeroCuenta) && i < cuentas.getLength(); i++) {
+            Node nodoCuenta = cuentas.item(i);
+            if (nodoCuenta.getNodeType() == Node.ELEMENT_NODE) {
+                cuenta = (Element) nodoCuenta;
+                nroCuenta = cuenta.getElementsByTagName("nroCuenta").item(0).getTextContent();
+            }
+        }
+        cuentaActual = cuenta;
+    }
+
+    public String getMonto() {
+        return cuentaActual.getElementsByTagName("monto").item(0).getTextContent();
+    }
+
+    public String getDivisa() {
+        return cuentaActual.getElementsByTagName("divisa").item(0).getTextContent();
+    }
+
+    public String getNroCuenta() {
+        return cuentaActual.getElementsByTagName("nroCuenta").item(0).getTextContent();
+
+    }
+    
+   
+
+    public double getMontoConvertido(String divisa, double monto) {
+        double tasaCambio = getTasaCambio(divisa, getDivisa(getNroCuenta()));
+        double montoConvertido = tasaCambio * monto;
+        return montoConvertido;
+    }
+
+    public double getMontoConvertido(String divisa, double monto, String nroCuenta) {
+        double tasaCambio = getTasaCambio(divisa, getDivisa(nroCuenta));
+        double montoConvertido = tasaCambio * monto;
+        return montoConvertido;
+    }
+
+    public String titularCuenta() {
+        return perfilUsuario.getElementsByTagName("nombreTitular").item(0).getTextContent();
+    }
+
+    
     public static void main(String args[]) {
         GestorCuenta gestorCuenta = new GestorCuenta();
         gestorCuenta.extraerCuentaUsuario("daniel87");
+        gestorCuenta.establecerCuenta("80789");
+        System.out.println(gestorCuenta.getMonto());
+        System.out.println(gestorCuenta.getDivisa());
+        gestorCuenta.retirar("bolivianos", 100);
+        System.out.println(gestorCuenta.getMonto());
+        gestorCuenta.depositar("dolares", 100);
+        System.out.println(gestorCuenta.getMonto());
+        /*
         gestorCuenta.retirar("dolares", 1, "23452345");
         List<Evento> eventos = gestorCuenta.getEventos("23452345");
         String[] propiedades = new String[5];
@@ -492,12 +531,13 @@ public class GestorCuenta {
             propiedades[4] = evento.getSaldo();
         }
         System.out.println(propiedades[1]);
-        /*
+        
         char[] nuevaContrasena = {'1', '0', '6'};
         char[] contrasenaAConfirmar = {'1', '0', '6'};
         gestorCuenta.cambiarContrasena(nuevaContrasena, contrasenaAConfirmar);
         gestorCuenta.anadirCuenta("bolivianos", "7777777");
          */
+
     }
 
 }
