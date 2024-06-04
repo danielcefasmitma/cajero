@@ -9,6 +9,7 @@ import cajero.Usuario;
 import cajero.GestorCuenta;
 import cajero.Hora;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,35 +34,45 @@ public class PanelCrearCuenta extends javax.swing.JPanel implements ItemListener
         panelPrincipal.getContentPane().revalidate();
         panelPrincipal.getContentPane().repaint();
         panelPrincipal.pack();
-        
+
+        lblNroCuenta.setText("" + gestionador.generarNumeroDeCuenta());
         btnCrearCuenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombreUsuario = jtfNombreUsuario.getText();
-                String nombreTitular = jtfNombreCompleto.getText();               
+                String nombreTitular = jtfNombreCompleto.getText();
                 char[] contrasena = jpwNuevaContrasena.getPassword();
                 char[] confirmacionContrasena = jpwConfirmacionContrasena.getPassword();
                 String nroCuenta = lblNroCuenta.getText();
-                String divisa = (String)jcbTipoCuenta.getSelectedItem();
+                String divisa = (String) jcbTipoCuenta.getSelectedItem();
                 boolean existeUsuario = gestionador.existeUsuario(nombreUsuario);
                 boolean contrasenasCoinciden = gestionador.contrasenasCoinciden(String.copyValueOf(contrasena), String.copyValueOf(confirmacionContrasena));
-                
-                if(!existeUsuario){                    
-                   if(contrasenasCoinciden){
-                       String montoInicial = JOptionPane.showInputDialog(null, "Depositar Monto Inicial", "Monto Inicial", JOptionPane.WARNING_MESSAGE);
-                       gestionador.crearCuenta(new Usuario(nombreUsuario, nombreTitular, String.copyValueOf(contrasena), nroCuenta, divisa, montoInicial));
-                       gestionador.crearEvento(new Evento(nroCuenta, "Se creó cuenta", montoInicial, montoInicial));
-                       lblAviso.setText("Cuenta se creó exitosamente.");
-                   }else{
-                       lblAviso.setText("Contraseñas nos coinciden.");
-                   }
-                }else{
+
+                if (!existeUsuario) {
+                    if (contrasenasCoinciden) {
+                        String montoInicial = JOptionPane.showInputDialog(null, "Depositar Monto Inicial de billetes de 10"+"("+divisa+")", "Monto Inicial", JOptionPane.WARNING_MESSAGE);
+                        if (montoInicial != null && Integer.parseInt(montoInicial) >= 10 && Integer.parseInt(montoInicial) % 10 == 0) {
+                            gestionador.crearCuenta(new Usuario(nombreUsuario, nombreTitular, String.copyValueOf(contrasena), nroCuenta, divisa, montoInicial));
+                            gestionador.crearEvento(new Evento(nroCuenta, "Se creó cuenta", montoInicial, montoInicial));
+                            lblAviso.setText("Cuenta se creó exitosamente.");
+                            lblAviso.setForeground(new Color(0, 153, 0));
+                        }else{
+                            lblAviso.setText("Pon un monto inicial valido.");
+                            lblAviso.setForeground(new Color(204, 0, 0));
+                        }
+
+                    } else {
+                        lblAviso.setText("Contraseñas nos coinciden.");
+                        lblAviso.setForeground(new Color(204, 0, 0));
+                    }
+                } else {
                     lblAviso.setText("El usuario ya existe.");
+                    lblAviso.setForeground(new Color(204, 0, 0));
                 }
-                    
+
             }
         });
-        
+
         btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,12 +80,12 @@ public class PanelCrearCuenta extends javax.swing.JPanel implements ItemListener
                 panelPrincipal.add(principal, BorderLayout.PAGE_START);
             }
         });
-        
+
         jcbTipoCuenta.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                lblNroCuenta.setText(""+gestionador.generarNumeroDeCuenta());
-                
+                lblNroCuenta.setText("" + gestionador.generarNumeroDeCuenta());
+
             }
         });
     }

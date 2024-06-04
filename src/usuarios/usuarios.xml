@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><usuarios>
-    <usuario id="daniel87">
-        <nombreTitular>Daniel Cefas Mitma</nombreTitular>
-        <contrasena>123</contrasena>
+    <usuario id="eli15">
+        <nombreTitular>Eliana Suaznabar Saavedra</nombreTitular>
+        <contrasena>ZsQb+fA6M6vta0e++BdHCg==</contrasena>
         <cuenta>
-            <nroCuenta>26331250</nroCuenta>
+            <nroCuenta>21584217</nroCuenta>
             <divisa>bolivianos</divisa>
-            <monto>184.0</monto>
+            <monto>64.6</monto>
         </cuenta>
         <cuenta>
-            <nroCuenta>28861338</nroCuenta>
-            <divisa>dolares</divisa>
-            <monto>2066.6</monto>
+            <nroCuenta>22794768</nroCuenta>
+            <divisa>euros</divisa>
+            <monto>10</monto>
         </cuenta>
     </usuario>
-    <usuario id="maria12">
-        <nombreTitular>Maria Gonzalez</nombreTitular>
-        <contrasena>321</contrasena>
+    <usuario id="juan16">
+        <nombreTitular>Juan Guiterrez Molina</nombreTitular>
+        <contrasena>DdjCGHSEJES32Gt/PsY4kQ==</contrasena>
         <cuenta>
-            <nroCuenta>22792474</nroCuenta>
+            <nroCuenta>22978809</nroCuenta>
             <divisa>dolares</divisa>
-            <monto>130.0</monto>
-        </cuenta>
-        <cuenta>
-            <nroCuenta>24374459</nroCuenta>
-            <divisa>euros</divisa>
-            <monto>43.0</monto>
+            <monto>1230.1</monto>
         </cuenta>
     </usuario>
 </usuarios>

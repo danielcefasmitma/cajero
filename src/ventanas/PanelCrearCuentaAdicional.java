@@ -7,6 +7,7 @@ package ventanas;
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,32 +33,38 @@ public class PanelCrearCuentaAdicional extends javax.swing.JPanel {
         panelOpciones.revalidate();
         panelOpciones.repaint();
         panelPrincipal.pack();
-        
-        lblCuentaGenerada.setText(""+gestionador.generarNumeroDeCuenta());
+
+        lblCuentaGenerada.setText("" + gestionador.generarNumeroDeCuenta());
         jcbSeleccionarDivisa.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                lblCuentaGenerada.setText(""+gestionador.generarNumeroDeCuenta());
-                
+                lblCuentaGenerada.setText("" + gestionador.generarNumeroDeCuenta());
+
             }
         });
-        
+
         btnCrearCuenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String montoInicial = JOptionPane.showInputDialog(null, "Depositar Monto Inicial:", "Monto Inicial", JOptionPane.WARNING_MESSAGE);
-                String divisa = (String)jcbSeleccionarDivisa.getSelectedItem();
-                gestionador.anadirCuenta(divisa.toLowerCase(), lblCuentaGenerada.getText(), montoInicial);
-                gestionador.crearEvento(new Evento(lblCuentaGenerada.getText(), "Se crea cuenta", montoInicial, montoInicial));
-                lblAviso.setText("Se creó cuenta exitosamente.");
+                String montoInicial = JOptionPane.showInputDialog(null, "Depositar Monto Inicial de billetes de 10" + "("+jcbSeleccionarDivisa.getSelectedItem()+")", "Monto Inicial", JOptionPane.WARNING_MESSAGE);
+                if (montoInicial != null && Integer.parseInt(montoInicial) >= 10 && Integer.parseInt(montoInicial) % 10 == 0) {
+                    String divisa = (String) jcbSeleccionarDivisa.getSelectedItem();
+                    gestionador.anadirCuenta(divisa.toLowerCase(), lblCuentaGenerada.getText(), montoInicial);
+                    gestionador.crearEvento(new Evento(lblCuentaGenerada.getText(), "Se crea cuenta", montoInicial, montoInicial));
+                    lblAviso.setText("Se creó cuenta exitosamente.");
+                    lblAviso.setForeground(new Color(0, 153, 0));
+                }else {
+                    lblAviso.setText("Pon un monto inicial valido.");
+                    lblAviso.setForeground(new Color(204, 0, 0));
+                }
             }
 
         });
 
         btnAtras.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {        
-                PanelOpciones opciones = new PanelOpciones(gestionador, panelPrincipal);                
+            public void actionPerformed(ActionEvent e) {
+                PanelOpciones opciones = new PanelOpciones(gestionador, panelPrincipal);
             }
         });
     }
@@ -130,7 +137,7 @@ public class PanelCrearCuentaAdicional extends javax.swing.JPanel {
         );
 
         lblAviso.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        lblAviso.setForeground(new java.awt.Color(255, 51, 51));
+        lblAviso.setForeground(new java.awt.Color(204, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

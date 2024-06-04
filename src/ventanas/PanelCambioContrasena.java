@@ -7,6 +7,7 @@ package ventanas;
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,9 +44,11 @@ public class PanelCambioContrasena extends javax.swing.JPanel {
                 boolean contrasenaCoincide = gestionador.contrasenaCoincide(antiguaCont);
                 boolean nuevaContrasenaCoincide = gestionador.cambiarContrasena(nuevaCont, confirmacionCont);
                 if (contrasenaCoincide && nuevaContrasenaCoincide) {
-                    lblAviso.setText("Se cambió la Contrasena con Existo.");
+                    lblAviso.setText("Se cambió la Contrasena con Exito.");
+                    lblAviso.setForeground(new Color(0, 153, 0));
                 } else {
                     lblAviso.setText("No se pudo realizar");
+                    lblAviso.setForeground(new Color(204, 0, 0));
                 }
             }
 

@@ -76,4 +76,60 @@
         <monto>13.0</monto>
         <saldo>43.0</saldo>
     </log>
-<log><nroCuenta>22792474</nroCuenta><fecha>2024/05/20</fecha><descripcion>Se realizó una transferencia.</descripcion><monto>100.0</monto><saldo>130.0</saldo></log><log><nroCuenta>28861338</nroCuenta><fecha>2024/05/20</fecha><descripcion>Se realizo un transferencia externa:22792474</descripcion><monto>100.0</monto><saldo>130.0</saldo></log></logs>
+    <log>
+        <nroCuenta>22792474</nroCuenta>
+        <fecha>2024/05/20</fecha>
+        <descripcion>Se realizó una transferencia.</descripcion>
+        <monto>100.0</monto>
+        <saldo>130.0</saldo>
+    </log>
+    <log>
+        <nroCuenta>28861338</nroCuenta>
+        <fecha>2024/05/20</fecha>
+        <descripcion>Se realizo un transferencia externa:22792474</descripcion>
+        <monto>100.0</monto>
+        <saldo>130.0</saldo>
+    </log>
+    <log>
+        <nroCuenta>21584217</nroCuenta>
+        <fecha>2024/06/02</fecha>
+        <descripcion>Se creó cuenta</descripcion>
+        <monto>10</monto>
+        <saldo>10</saldo>
+    </log>
+    <log>
+        <nroCuenta>22978809</nroCuenta>
+        <fecha>2024/06/02</fecha>
+        <descripcion>Se creó cuenta</descripcion>
+        <monto>10</monto>
+        <saldo>10</saldo>
+    </log>  
+    <log>
+        <nroCuenta>21584217</nroCuenta>
+        <fecha>2024/06/02</fecha>
+        <descripcion>Se realizó un deposito.</descripcion>
+        <monto>69.6</monto>
+        <saldo>79.6</saldo>
+    </log>
+    <log>
+        <nroCuenta>21584217</nroCuenta>
+        <fecha>2024/06/02</fecha>
+        <descripcion>Se realizó una transferencia.</descripcion>
+        <monto>15.0</monto>
+        <saldo>64.6</saldo>
+    </log>
+    <log>
+        <nroCuenta>22978809</nroCuenta>
+        <fecha>2024/06/02</fecha>
+        <descripcion>Se realizo un transferencia externa:21584217</descripcion>
+        <monto>2.1</monto>
+        <saldo>64.6</saldo>
+    </log>
+    <log>
+        <nroCuenta>22794768</nroCuenta>
+        <fecha>2024/06/02</fecha>
+        <descripcion>Se crea cuenta</descripcion>
+        <monto>10</monto>
+        <saldo>10</saldo>
+    </log>
+</logs>

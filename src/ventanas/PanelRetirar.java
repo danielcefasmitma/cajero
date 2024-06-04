@@ -8,6 +8,7 @@ import cajero.Cuenta;
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
@@ -65,8 +66,11 @@ public class PanelRetirar extends javax.swing.JPanel {
                         registro.addRow(filaEvento);
                     }
                     lblMonto.setText(String.format("%.2f", Double.parseDouble(gestionador.saldoDisponible())));
+                    lblAviso.setText("Operación Exitosa");
+                    lblAviso.setForeground(new Color(0, 153, 0));
                 }else if(montoARetirar <= 0){
                     lblAviso.setText("Entrada Invalida");
+                    lblAviso.setForeground(new Color(204, 0, 0));
                 }
             }
         });

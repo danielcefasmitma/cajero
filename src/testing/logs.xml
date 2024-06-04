@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><logs>
+    <log>
+        <nroCuenta>26331250</nroCuenta>
+        <fecha>2024/05/20</fecha>
+        <descripcion>Se creó cuenta</descripcion>
+        <monto>10.0</monto>
+        <saldo>10.0</saldo>
+    </log>
+    <log>
+        <nroCuenta>26331250</nroCuenta>
+        <fecha>2024/05/20</fecha>
+        <descripcion>Se creó cuenta</descripcion>
+        <monto>10.0</monto>
+        <saldo>10.0</saldo>
+    </log>
+    <log>
+        <nroCuenta>22792474</nroCuenta>
+        <fecha>2024/05/20</fecha>
+        <descripcion>Se creó cuenta</descripcion>
+        <monto>10.0</monto>
+        <saldo>10.0</saldo>
+    </log>
+    <log>
+        <nroCuenta>22792474</nroCuenta>
+        <fecha>2024/05/20</fecha>
+        <descripcion>Se creó cuenta</descripcion>
+        <monto>10.0</monto>
+        <saldo>10.0</saldo>
+    </log>
+</logs>

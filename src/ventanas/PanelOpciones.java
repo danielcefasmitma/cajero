@@ -46,7 +46,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         jcbSeleccionarCuenta.setSelectedIndex(EstadoComboBox.getIndiceSeleccionado());
         Cuenta cuenta = (Cuenta) jcbSeleccionarCuenta.getSelectedItem();
         lblNombreTitular.setText(gestionador.titularCuenta());
-        gestionador.establecerCuenta(cuenta.getNroCuenta());
+        gestionador.establecerCuentaActual(cuenta.getNroCuenta());
         List<Evento> eventos = gestionador.getEventos();
         modeloColumna.getColumn(2).setHeaderValue("Monto"+ "("+gestionador.getDivisa()+")");
         modeloColumna.getColumn(3).setHeaderValue("Saldo"+ "("+gestionador.getDivisa()+")");
@@ -58,7 +58,7 @@ public class PanelOpciones extends javax.swing.JPanel {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     modeloTabla.setRowCount(0);
                     Cuenta cuenta = (Cuenta) jcbSeleccionarCuenta.getSelectedItem();
-                    gestionador.establecerCuenta(cuenta.getNroCuenta());
+                    gestionador.establecerCuentaActual(cuenta.getNroCuenta());
                     List<Evento> eventos = gestionador.getEventos(); 
                     modeloColumna.getColumn(2).setHeaderValue("Monto"+ "("+gestionador.getDivisa()+")");
                     modeloColumna.getColumn(3).setHeaderValue("Saldo"+ "("+gestionador.getDivisa()+")");
@@ -174,6 +174,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtRegistro = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -301,7 +302,7 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDepositar)
                     .addComponent(btnCambiarContrasena))
-                .addGap(33, 33, 33))
+                .addGap(36, 36, 36))
         );
 
         add(jPanel1, java.awt.BorderLayout.NORTH);
@@ -321,6 +322,10 @@ public class PanelOpciones extends javax.swing.JPanel {
             jtRegistro.getColumnModel().getColumn(1).setPreferredWidth(250);
         }
 
+        jLabel2.setFont(new java.awt.Font("Lucida Console", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Historial de la Cuenta");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -329,11 +334,17 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -351,6 +362,7 @@ public class PanelOpciones extends javax.swing.JPanel {
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransferir;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -8,6 +8,7 @@ import cajero.Cuenta;
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,9 +67,11 @@ public class PanelTransferir extends javax.swing.JPanel {
                     }
 
                     lblMonto.setText(String.format("%.2f", Double.parseDouble(gestionador.saldoDisponible())));
-
+                    lblAviso.setText("Operación Exitosa");
+                    lblAviso.setForeground(new Color(0, 153, 0));
                 }else{
                     lblAviso.setText("Entrada Inválida");
+                    lblAviso.setForeground(new Color(204, 0, 0));
                 }
             }
 
@@ -199,10 +202,11 @@ public class PanelTransferir extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSaldoDisponible)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDivisaSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblMonto))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblSaldoDisponible)
+                                .addComponent(lblMonto)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                         .addComponent(lblCuentaAbono)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)

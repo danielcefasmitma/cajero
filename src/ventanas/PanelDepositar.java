@@ -8,6 +8,7 @@ import cajero.Cuenta;
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -62,9 +63,12 @@ public class PanelDepositar extends javax.swing.JPanel {
                     }
 
                     lblMonto.setText(String.format("%.2f", Double.parseDouble(gestionador.saldoDisponible())));
-                    lblAviso.setText("Operacion Realizada");
+                    lblAviso.setText("Operacion Exitosa");
+                    lblAviso.setForeground(new Color(0, 153, 0));
                 }else{
                     lblAviso.setText("Entrada Inválida");
+                    lblAviso.setForeground(new Color(204, 0, 0));
+                    
                 }
             }
 
@@ -194,9 +198,8 @@ public class PanelDepositar extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblSaldoDisponible)
-                        .addComponent(lblDivisaSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblDivisaSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSaldoDisponible)
                     .addComponent(lblMonto))
                 .addGap(66, 66, 66)
                 .addComponent(lblMontoADepositar)

@@ -69,10 +69,8 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblSaldoDisponible" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblDivisaSaldo" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="lblDivisaSaldo" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                  <Component id="lblSaldoDisponible" min="-2" max="-2" attributes="0"/>
                   <Component id="lblMonto" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>

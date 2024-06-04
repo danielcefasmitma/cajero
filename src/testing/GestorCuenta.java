@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cajero;
+package testing;
 
+import cajero.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,8 +39,8 @@ public class GestorCuenta {
     private Element cuentaActual;
 
     public GestorCuenta() {
-        directorioUsuarios = new File(System.getProperty("user.dir") + "/src/usuarios/");
-        directorioLog = new File(System.getProperty("user.dir") + "/src/logUsuarios/");
+        directorioUsuarios = new File(System.getProperty("user.dir") + "/src/testing/");
+        directorioLog = new File(System.getProperty("user.dir") + "/src/testing/");
         if (!directorioUsuarios.exists()) {
             directorioUsuarios.mkdir();
         }

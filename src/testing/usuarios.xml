@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><usuarios>
+    <usuario id="daniel87">
+        <nombreTitular>Daniel Cefas Mitma</nombreTitular>
+        <contrasena>ZsQb+fA6M6vta0e++BdHCg==</contrasena>
+        <cuenta>
+            <nroCuenta>26331250</nroCuenta>
+            <divisa>bolivianos</divisa>
+            <monto>370.79999999999995</monto>
+        </cuenta>
+        <cuenta>
+            <nroCuenta>28861338</nroCuenta>
+            <divisa>dolares</divisa>
+            <monto>10.0</monto>
+        </cuenta>
+    </usuario>
+    <usuario id="maria12">
+        <nombreTitular>Maria Gonzalez</nombreTitular>
+        <contrasena>DdjCGHSEJES32Gt/PsY4kQ==</contrasena>
+        <cuenta>
+            <nroCuenta>22792474</nroCuenta>
+            <divisa>dolares</divisa>
+            <monto>20.0</monto>
+        </cuenta>
+        <cuenta>
+            <nroCuenta>24374459</nroCuenta>
+            <divisa>euros</divisa>
+            <monto>10.0</monto>
+        </cuenta>
+    </usuario>
+    <usuario id="test123">
+        <nombreTitular>Test</nombreTitular>
+        <contrasena>sGe5b2UOGm1WLS5SxPE7Tw==</contrasena>
+        <cuenta>
+            <nroCuenta>12788484</nroCuenta>
+            <divisa>euros</divisa>
+            <monto>10</monto>
+        </cuenta>
+    </usuario>
+</usuarios>
