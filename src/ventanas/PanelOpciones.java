@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package ventanas;
 
 import cajero.Cuenta;
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -17,18 +11,24 @@ import java.awt.event.ItemListener;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 /**
- *
+ * PanelOpciones es un JPanel que proporciona opciones para que los usuarios gestionen su cuenta bancaria.
+ * 
+ * Este panel permite a los usuarios consultar saldo, realizar retiros, depósitos, transferencias, cambiar contraseñas,
+ * abrir cuentas adicionales y salir de su sesión.
+ * 
  * @author Daniel
  */
 public class PanelOpciones extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelOpciones
+     * Constructor para crear un nuevo PanelOpciones.
+     * 
+     * @param gestionador   Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelPrincipal Marco principal donde se añadirá este panel.
      */
     public PanelOpciones(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();
@@ -134,6 +134,12 @@ public class PanelOpciones extends javax.swing.JPanel {
 
     }
     
+    /**
+     * Este método cumple la función de actualizar la tabla de eventos con los eventos de la cuenta seleccionada.
+     * 
+     * @param eventos Lista de eventos de la cuenta seleccionada.
+     * @param modeloTabla Modelo de la tabla a actualizar.
+     */
     public void actualizarTabla(List<Evento> eventos, DefaultTableModel modeloTabla){
         
         for (int i = 0; i < eventos.size(); i++) {

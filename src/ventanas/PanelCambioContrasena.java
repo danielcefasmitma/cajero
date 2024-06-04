@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package ventanas;
 
-import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,18 +7,22 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Esta clase representa el panel de cambio de contraseña para un usuario.
+ * Permite al usuario cambiar su contraseña actual por una nueva.
  * @author Daniel
  */
 public class PanelCambioContrasena extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelCambioContrasena
+     * Crea un nuevo panel de cambio de contraseña.
+     * 
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelOpciones El contenedor de panel de Opciones.
+     * @param registro El modelo de tabla utilizado para registrar cambios.
+     * @param panelPrincipal El marco principal de la aplicación.
      */
     public PanelCambioContrasena(GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();

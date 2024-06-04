@@ -1,23 +1,28 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ventanas;
 
 import cajero.GestorCuenta;
-import java.awt.BorderLayout;
 
 /**
+ * Principal es la clase principal de la aplicación que representa el marco
+ * principal de la interfaz gráfica de usuario del cajero automático. Este marco
+ * contiene un panel de inicio de sesión al iniciar la aplicación.
+ *
+ * El marco principal contiene un objeto GestorCuenta para gestionar las cuentas
+ * de usuario.
+ *
+ * La clase Principal contiene un constructor público que inicializa el
+ * GestorCuenta, inicializa los componentes del marco y agrega un
+ * PanelSesionInicio al marco principal.
  *
  * @author Daniel
  */
 public class Principal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Contenedor
-     */
     private GestorCuenta gestionador;
 
+    /**
+     * Constructor de la clase Principal.
+     */
     public Principal() {
         gestionador = new GestorCuenta();
         initComponents();

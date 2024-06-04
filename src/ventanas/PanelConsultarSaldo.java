@@ -10,23 +10,24 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Esta clase representa el panel de consulta de saldo para un usuario.
+ * Permite al usuario ver su saldo disponible y la divisa correspondiente.
+ * 
  * @author Daniel
  */
 public class PanelConsultarSaldo extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelConsultarSaldo
+     * Crea un nuevo panel de cambio de contraseña.
+     * 
+     * @param gestionador Es encargado de la gestion de cuentas del usuario.
+     * @param panelOpciones El contenedor de panel de Opciones.
+     * @param registro El modelo de tabla utilizado para registrar cambios.
+     * @param panelPrincipal El marco principal de la aplicación.
      */
     public PanelConsultarSaldo(GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();

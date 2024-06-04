@@ -60,25 +60,103 @@ public class GestorCuentaTest {
     }
 
 
+    @Test
+    public void testDepositar() {
+        System.out.println("depositar");
+        String divisa = "bolivianos";
+        double montoDeposito = 500.0;
+        double expResult = 510.0;
+        gestorCuenta.depositar(divisa, montoDeposito);
+        double montoActualCuenta = Double.parseDouble(gestorCuenta.getMonto());
+        assertEquals(expResult, montoActualCuenta, 0);
+    }
+
+@Test
+    public void testRetirar() {
+        System.out.println("retirar");
+        String divisa = "dolares";
+        double montoRetiro = 10;
+        double expResult = 440.4;
+        gestorCuenta.retirar(divisa, montoRetiro);  
+        double montoActualCuenta = Double.parseDouble(gestorCuenta.getMonto());
+        assertEquals(expResult,montoActualCuenta ,0);
+    }
+
+ @Test
+    public void testTransferir() {
+        System.out.println("transferir");
+        String divisa = "dolares";
+        double montoATransferir = 10.0;
+        String numeroCuentaDestino = "22792474";
+        gestorCuenta.transferir(divisa, montoATransferir, numeroCuentaDestino);
+        double montoDespuesTransaccionCuentaOrigen = Double.parseDouble(gestorCuenta.getMonto());
+        double expResult1 = 370.79999999999995;
+        
+        GestorCuenta gestorCuentaMaria = new GestorCuenta();
+        gestorCuentaMaria.extraerCuentaUsuario("maria12");
+        gestorCuentaMaria.establecerCuentaActual("22792474");
+        double montoRecibidoCuentaDestino = Double.parseDouble(gestorCuentaMaria.getMonto());
+        double expResult2 = 20.0;
+        
+        assertEquals(expResult1, montoDespuesTransaccionCuentaOrigen, 0);
+        assertEquals(expResult2, montoRecibidoCuentaDestino, 0);
+        
+    }
+
+@Test
+    public void testAnadirCuenta() {
+        /**
+        System.out.println("anadirCuenta");
+        String divisa = "";
+        String nroCuenta = "";
+        String montoInicial = "";
+        cajero.GestorCuenta instance = new cajero.GestorCuenta();
+        instance.anadirCuenta(divisa, nroCuenta, montoInicial);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+        * **/
+    }
     
+   
+
+    @Test
+    public void testCrearEvento() {
+        /**
+        System.out.println("crearEvento");
+        Evento evento = null;
+        cajero.GestorCuenta instance = new cajero.GestorCuenta();
+        instance.crearEvento(evento);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+        * **/
+    }
     
+    @Test
+    public void testGenerarNumeroDeCuenta() {
+        /**
+        System.out.println("generarNumeroDeCuenta");
+        cajero.GestorCuenta instance = new cajero.GestorCuenta();
+        int expResult = 0;
+        int result = gestorCuenta.generarNumeroDeCuenta();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+        **/
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
+     
+     @Test
+    public void testCambiarContrasena() {
+        /**
+        System.out.println("cambiarContrasena");
+        char[] nuevaCont = {'a','b','c'};
+        char[] confirmacionCont = {'a','b','c'};
+        boolean expResult = true;
+        boolean result = gestorCuenta.cambiarContrasena(nuevaCont, confirmacionCont);
+        assertEquals(expResult, result); **/
+    }
+ 
     /**
     @Test
     public void testGetEventos() {

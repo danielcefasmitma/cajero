@@ -7,13 +7,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Daniel
- */
+    * Esta clase representa el panel para la verificación de contraseña del usuario.
+    * Permite al usuario ingresar su contraseña para acceder a su cuenta.
+    * 
+    * @author Daniel
+    */
 public class PanelContrasena extends javax.swing.JPanel {
 
     /**
-     * Creates new form InicioSesion
+     * Crea un nuevo panel de contraseña.
+     * 
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelPrincipal El marco principal de la aplicación.
      */
     public PanelContrasena(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();

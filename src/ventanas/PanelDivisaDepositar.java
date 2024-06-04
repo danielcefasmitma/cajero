@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package ventanas;
 
 import cajero.GestorCuenta;
@@ -10,18 +6,24 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * PanelDivisaDepositar es un JPanel que permite al usuario seleccionar la divisa para realizar un depósito.
+ * 
+ * Este panel se utiliza para que los usuarios elijan la divisa en la que desean realizar un depósito en su cuenta bancaria.
+ * 
  * @author Daniel
  */
 public class PanelDivisaDepositar extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelDepositarDivisa
+     * Constructor para crear un nuevo PanelDivisaDepositar.
+     * 
+     * @param gestionador   Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelOpciones Contenedor donde se añadirá este panel.
+     * @param registro      Modelo de tabla para mantener el registro de cuentas.
+     * @param panelPrincipal Marco principal donde se añadirá este panel.
      */
     public PanelDivisaDepositar(GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();

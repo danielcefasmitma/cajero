@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package ventanas;
 
-import cajero.Cuenta;
+
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
@@ -12,23 +8,32 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.List;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * PanelTransferir es una clase que representa el panel de transferencia de fondos en la interfaz gráfica de usuario de un cajero automático.
+ * Esta clase permite al usuario transferir fondos a otra cuenta utilizando la divisa especificada.
+ * 
+ * Los componentes de este panel incluyen campos de texto para ingresar el número de cuenta de destino y el monto a transferir, botones para realizar la transferencia y regresar a la pantalla anterior,
+ * etiquetas para mostrar la divisa seleccionada, el saldo disponible en la cuenta y mensajes de aviso.
+ * 
+ * Esta clase contiene un constructor público que recibe la divisa, un objeto GestorCuenta, un contenedor para los paneles de opciones, un modelo de tabla para el registro de eventos y el marco principal de la aplicación como parámetros.
+ * En el constructor se inicializan los componentes del panel y se configuran los eventos de los botones para realizar la transferencia y regresar a la pantalla de opciones.
+ * 
  * @author Daniel
  */
 public class PanelTransferir extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelTransferir
+     * Constructor de la clase PanelTransferir.
+     * 
+     * @param divisa Divisa seleccionada para la transferencia
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelOpciones Contenedor para los paneles de opciones
+     * @param registro Modelo de tabla para el registro de eventos
+     * @param panelPrincipal Marco principal de la aplicación
      */
     public PanelTransferir(String divisa, GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();

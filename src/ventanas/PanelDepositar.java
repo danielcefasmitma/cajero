@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package ventanas;
 
 import cajero.Cuenta;
@@ -21,13 +17,22 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * PanelDepositar es un JPanel que permite realizar depósitos en una cuenta bancaria.
+ * 
+ * Este panel se utiliza para que los usuarios puedan depositar dinero en su cuenta bancaria.
+ * 
  * @author Daniel
  */
 public class PanelDepositar extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelDepositar
+     * Constructor para crear un nuevo PanelDepositar.
+     * 
+     * @param divisa        La divisa en la que se realizará el depósito.
+     * @param gestionador   Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelOpciones Contenedor donde se añadirá este panel.
+     * @param registro      Modelo de tabla para mantener el registro de cuentas.
+     * @param panelPrincipal Marco principal donde se añadirá este panel.
      */
     public PanelDepositar(String divisa, GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();

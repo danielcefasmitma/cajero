@@ -5,7 +5,7 @@
         <cuenta>
             <nroCuenta>26331250</nroCuenta>
             <divisa>bolivianos</divisa>
-            <monto>370.79999999999995</monto>
+            <monto>10.0</monto>
         </cuenta>
         <cuenta>
             <nroCuenta>28861338</nroCuenta>
@@ -19,21 +19,12 @@
         <cuenta>
             <nroCuenta>22792474</nroCuenta>
             <divisa>dolares</divisa>
-            <monto>20.0</monto>
+            <monto>10.0</monto>
         </cuenta>
         <cuenta>
             <nroCuenta>24374459</nroCuenta>
             <divisa>euros</divisa>
             <monto>10.0</monto>
-        </cuenta>
-    </usuario>
-    <usuario id="test123">
-        <nombreTitular>Test</nombreTitular>
-        <contrasena>sGe5b2UOGm1WLS5SxPE7Tw==</contrasena>
-        <cuenta>
-            <nroCuenta>12788484</nroCuenta>
-            <divisa>euros</divisa>
-            <monto>10</monto>
         </cuenta>
     </usuario>
 </usuarios>

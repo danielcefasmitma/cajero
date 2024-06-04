@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package ventanas;
 
 import cajero.Evento;
@@ -18,13 +14,22 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * PanelCrearCuentaAdicional es un JPanel que permite la creación de una cuenta bancaria adicional.
+ * 
+ * Este panel se utiliza para agregar una cuenta adicional a un usuario existente. Permite seleccionar la divisa,
+ * generar automáticamente el número de cuenta y agregar un monto inicial.
+ * 
  * @author Daniel
  */
 public class PanelCrearCuentaAdicional extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelCrearCuentaAdicional
+     /**
+     * Constructor para crear un nuevo PanelCrearCuentaAdicional.
+     * 
+     * @param gestionador   Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelOpciones Contenedor donde se añadirá este panel.
+     * @param registro      Modelo de tabla para mantener el registro de cuentas.
+     * @param panelPrincipal Marco principal donde se añadirá este panel.
      */
     public PanelCrearCuentaAdicional(GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
         initComponents();

@@ -7,10 +7,8 @@ package ventanas;
 import cajero.Evento;
 import cajero.Usuario;
 import cajero.GestorCuenta;
-import cajero.Hora;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,13 +17,22 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * PanelCrearCuenta es un JPanel que permite a los usuarios crear una nueva cuenta bancaria.
+ * Implementa la interfaz ItemListener para manejar los eventos de cambio de selección en el JComboBox.
+ * 
+ * El panel permite ingresar un nombre de usuario, nombre completo, contraseña, confirmación de contraseña
+ * y seleccionar el tipo de cuenta. Verifica si el usuario ya existe y si las contraseñas coinciden antes
+ * de crear la cuenta.
+ * 
  * @author Daniel
  */
 public class PanelCrearCuenta extends javax.swing.JPanel implements ItemListener {
 
-    /**
-     * Creates new form PanelCrearCuenta
+     /**
+     * Constructor para crear un nuevo PanelCrearCuenta.
+     * 
+     * @param gestionador   Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelPrincipal Marco principal donde se añadirá este panel.
      */
     public PanelCrearCuenta(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();

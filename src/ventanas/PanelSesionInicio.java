@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package ventanas;
 
 import cajero.GestorCuenta;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import cajero.*;
 import java.awt.BorderLayout;
-import java.awt.Container;
-import javax.swing.Action;
 import javax.swing.JFrame;
 
 /**
@@ -20,10 +13,25 @@ import javax.swing.JFrame;
 public class PanelSesionInicio extends javax.swing.JPanel {
 
     /**
-     * Creates new form Principal
-     */
+    * PanelSesionInicio es una clase que representa el panel de inicio de sesión en la interfaz gráfica de usuario de un cajero automático.
+    * Esta clase permite al usuario iniciar sesión o crear una nueva cuenta.
+    * 
+    * Los componentes de este panel incluyen un campo de texto para ingresar el nombre de usuario, botones para iniciar sesión, crear una cuenta y salir de la aplicación,
+    * y una etiqueta para mostrar una imagen relacionada con el inicio de sesión.
+    * 
+    * Esta clase contiene un constructor público que recibe un objeto GestorCuenta y el marco principal de la aplicación como parámetros. En el constructor se inicializan los
+    * componentes del panel y se configuran los eventos de los botones para iniciar sesión, crear una cuenta y salir de la aplicación.
+    * 
+    * @author Daniel
+    */
     private GestorCuenta gestionador;
-
+    
+    /**
+     * Constructor de la clase PanelSesionInicio.
+     * 
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param panelPrincipal Marco principal de la aplicación
+     */
     public PanelSesionInicio(GestorCuenta gestionador, JFrame panelPrincipal) {
         initComponents();
         panelPrincipal.getContentPane().removeAll(); 
