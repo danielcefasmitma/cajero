@@ -15,19 +15,22 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 /**
- * PanelOpciones es un JPanel que proporciona opciones para que los usuarios gestionen su cuenta bancaria.
- * 
- * Este panel permite a los usuarios consultar saldo, realizar retiros, depósitos, transferencias, cambiar contraseñas,
- * abrir cuentas adicionales y salir de su sesión.
- * 
+ * PanelOpciones es un JPanel que proporciona opciones para que los usuarios
+ * gestionen su cuenta bancaria.
+ *
+ * Este panel permite a los usuarios consultar saldo, realizar retiros,
+ * depósitos, transferencias, cambiar contraseñas, abrir cuentas adicionales y
+ * salir de su sesión.
+ *
  * @author Daniel
  */
 public class PanelOpciones extends javax.swing.JPanel {
 
     /**
      * Constructor para crear un nuevo PanelOpciones.
-     * 
-     * @param gestionador   Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     *
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones
+     * relacionadas con la cuenta.
      * @param panelPrincipal Marco principal donde se añadirá este panel.
      */
     public PanelOpciones(GestorCuenta gestionador, JFrame panelPrincipal) {
@@ -37,21 +40,20 @@ public class PanelOpciones extends javax.swing.JPanel {
         panelPrincipal.getContentPane().revalidate();
         panelPrincipal.getContentPane().repaint();
         panelPrincipal.pack();
-        
-        
+
         DefaultTableModel modeloTabla = (DefaultTableModel) jtRegistro.getModel();
         TableColumnModel modeloColumna = jtRegistro.getColumnModel();
-        
+
         jcbSeleccionarCuenta.setModel(new DefaultComboBoxModel(gestionador.getCuentas()));
         jcbSeleccionarCuenta.setSelectedIndex(EstadoComboBox.getIndiceSeleccionado());
         Cuenta cuenta = (Cuenta) jcbSeleccionarCuenta.getSelectedItem();
         lblNombreTitular.setText(gestionador.titularCuenta());
         gestionador.establecerCuentaActual(cuenta.getNroCuenta());
         List<Evento> eventos = gestionador.getEventos();
-        modeloColumna.getColumn(2).setHeaderValue("Monto"+ "("+gestionador.getDivisa()+")");
-        modeloColumna.getColumn(3).setHeaderValue("Saldo"+ "("+gestionador.getDivisa()+")");
+        modeloColumna.getColumn(2).setHeaderValue("Monto" + "(" + gestionador.getDivisa() + ")");
+        modeloColumna.getColumn(3).setHeaderValue("Saldo" + "(" + gestionador.getDivisa() + ")");
         actualizarTabla(eventos, modeloTabla);
-        
+
         jcbSeleccionarCuenta.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -59,16 +61,15 @@ public class PanelOpciones extends javax.swing.JPanel {
                     modeloTabla.setRowCount(0);
                     Cuenta cuenta = (Cuenta) jcbSeleccionarCuenta.getSelectedItem();
                     gestionador.establecerCuentaActual(cuenta.getNroCuenta());
-                    List<Evento> eventos = gestionador.getEventos(); 
-                    modeloColumna.getColumn(2).setHeaderValue("Monto"+ "("+gestionador.getDivisa()+")");
-                    modeloColumna.getColumn(3).setHeaderValue("Saldo"+ "("+gestionador.getDivisa()+")");
-                    actualizarTabla(eventos,  modeloTabla);
-                    
+                    List<Evento> eventos = gestionador.getEventos();
+                    modeloColumna.getColumn(2).setHeaderValue("Monto" + "(" + gestionador.getDivisa() + ")");
+                    modeloColumna.getColumn(3).setHeaderValue("Saldo" + "(" + gestionador.getDivisa() + ")");
+                    actualizarTabla(eventos, modeloTabla);
+
                 }
             }
 
         });
-       
 
         btnConsultarSaldo.addActionListener(new ActionListener() {
             @Override
@@ -133,25 +134,26 @@ public class PanelOpciones extends javax.swing.JPanel {
         });
 
     }
-    
+
     /**
-     * Este método cumple la función de actualizar la tabla de eventos con los eventos de la cuenta seleccionada.
-     * 
+     * Este método cumple la función de actualizar la tabla de eventos con los
+     * eventos de la cuenta seleccionada.
+     *
      * @param eventos Lista de eventos de la cuenta seleccionada.
      * @param modeloTabla Modelo de la tabla a actualizar.
      */
-    public void actualizarTabla(List<Evento> eventos, DefaultTableModel modeloTabla){
-        
+    public void actualizarTabla(List<Evento> eventos, DefaultTableModel modeloTabla) {
+
         for (int i = 0; i < eventos.size(); i++) {
-                        Evento evento = eventos.get(i);
-                        String[] filaEvento = new String[4];
-                        filaEvento[0] = evento.getFecha();
-                        filaEvento[1] = evento.getDescripcion();
-                        filaEvento[2] = String.format("%.2f",Double.parseDouble(evento.getMonto()));
-                        filaEvento[3] = String.format("%.2f",Double.parseDouble(evento.getSaldo()));
-                        modeloTabla.addRow(filaEvento);
-                    }
-                    EstadoComboBox.setIndiceSeleccionado(jcbSeleccionarCuenta.getSelectedIndex());
+            Evento evento = eventos.get(i);
+            String[] filaEvento = new String[4];
+            filaEvento[0] = evento.getFecha();
+            filaEvento[1] = evento.getDescripcion();
+            filaEvento[2] = String.format("%.2f", Double.parseDouble(evento.getMonto()));
+            filaEvento[3] = String.format("%.2f", Double.parseDouble(evento.getSaldo()));
+            modeloTabla.addRow(filaEvento);
+        }
+        EstadoComboBox.setIndiceSeleccionado(jcbSeleccionarCuenta.getSelectedIndex());
     }
 
     /**

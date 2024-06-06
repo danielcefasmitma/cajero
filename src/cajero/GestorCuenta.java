@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -66,7 +64,7 @@ public class GestorCuenta {
             File directorio = new File(directorioLog + "/logs.xml");
             escribirDatosEvento(evento, directorio);
         } catch (IOException ex) {
-            Logger.getLogger(GestorCuenta.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -181,7 +179,7 @@ public class GestorCuenta {
             File directorio = new File(directorioUsuarios + "/usuarios.xml");
             escribirDatosUsuario(usuario, directorio);
         } catch (IOException ex) {
-            Logger.getLogger(GestorCuenta.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -294,7 +292,7 @@ public class GestorCuenta {
             sr = SecureRandom.getInstance("SHA1PRNG");
 
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(GestorCuenta.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return sr.nextInt(min, max);
     }

@@ -1,6 +1,5 @@
 package ventanas;
 
-
 import cajero.Evento;
 import cajero.GestorCuenta;
 import java.awt.BorderLayout;
@@ -13,24 +12,31 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * PanelTransferir es una clase que representa el panel de transferencia de fondos en la interfaz gráfica de usuario de un cajero automático.
- * Esta clase permite al usuario transferir fondos a otra cuenta utilizando la divisa especificada.
- * 
- * Los componentes de este panel incluyen campos de texto para ingresar el número de cuenta de destino y el monto a transferir, botones para realizar la transferencia y regresar a la pantalla anterior,
- * etiquetas para mostrar la divisa seleccionada, el saldo disponible en la cuenta y mensajes de aviso.
- * 
- * Esta clase contiene un constructor público que recibe la divisa, un objeto GestorCuenta, un contenedor para los paneles de opciones, un modelo de tabla para el registro de eventos y el marco principal de la aplicación como parámetros.
- * En el constructor se inicializan los componentes del panel y se configuran los eventos de los botones para realizar la transferencia y regresar a la pantalla de opciones.
+ * PanelTransferir es una clase que representa el panel de transferencia de
+ * fondos en la interfaz gráfica de usuario de un cajero automático. Esta clase
+ * permite al usuario transferir fondos a otra cuenta utilizando la divisa
+ * especificada.
+ *
+ * Los componentes de este panel incluyen campos de texto para ingresar el
+ * número de cuenta de destino y el monto a transferir, botones para realizar la
+ * transferencia y regresar a la pantalla anterior, etiquetas para mostrar la
+ * divisa seleccionada, el saldo disponible en la cuenta y mensajes de aviso.
  * 
  * @author Daniel
  */
 public class PanelTransferir extends javax.swing.JPanel {
 
     /**
-     * Constructor de la clase PanelTransferir.
-     * 
+     * Constructor público que recibe la divisa, un objeto GestorCuenta, un
+     * contenedor para los paneles de opciones, un modelo de tabla para el
+     * registro de eventos y el marco principal de la aplicación como
+     * parámetros. En el constructor se inicializan los componentes del panel y
+     * se configuran los eventos de los botones para realizar la transferencia y
+     * regresar a la pantalla de opciones.
+     *
      * @param divisa Divisa seleccionada para la transferencia
-     * @param gestionador Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones
+     * relacionadas con la cuenta.
      * @param panelOpciones Contenedor para los paneles de opciones
      * @param registro Modelo de tabla para el registro de eventos
      * @param panelPrincipal Marco principal de la aplicación
@@ -59,7 +65,7 @@ public class PanelTransferir extends javax.swing.JPanel {
                     double montoConvertidoDestino = gestionador.getMontoConvertido(divisa.toLowerCase(), montoATranferir, numCuenta);
                     gestionador.transferir(lblDivisa.getText().toLowerCase(), montoATranferir, jtfNroCuentaAbonado.getText());
                     gestionador.crearEvento(new Evento(gestionador.getNroCuenta(), "Se realizó una transferencia.", Double.toString(montoConvertido), gestionador.saldoDisponible()));
-                    gestionador.crearEvento(new Evento(numCuenta, "Se realizo un transferencia externa:"+gestionador.getNroCuenta(), Double.toString(montoConvertidoDestino), gestionador.saldoDisponible()));
+                    gestionador.crearEvento(new Evento(numCuenta, "Se realizo un transferencia externa:" + gestionador.getNroCuenta(), Double.toString(montoConvertidoDestino), gestionador.saldoDisponible()));
                     List<Evento> eventos = gestionador.getEventos();
                     for (int i = 0; i < eventos.size(); i++) {
                         Evento evento = eventos.get(i);
@@ -74,7 +80,7 @@ public class PanelTransferir extends javax.swing.JPanel {
                     lblMonto.setText(String.format("%.2f", Double.parseDouble(gestionador.saldoDisponible())));
                     lblAviso.setText("Operación Exitosa");
                     lblAviso.setForeground(new Color(0, 153, 0));
-                }else{
+                } else {
                     lblAviso.setText("Entrada Inválida");
                     lblAviso.setForeground(new Color(204, 0, 0));
                 }

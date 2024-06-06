@@ -11,20 +11,23 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * PanelDivisaTransferir es un JPanel que permite al usuario seleccionar la divisa para transferir fondos.
+ * PanelDivisaTransferir es un JPanel que permite al usuario seleccionar la
+ * divisa para transferir fondos.
  *
- * Este panel se utiliza para que los usuarios elijan la divisa en la que desean transferir fondos desde su cuenta bancaria.
- * 
+ * Este panel se utiliza para que los usuarios elijan la divisa en la que desean
+ * transferir fondos desde su cuenta bancaria.
+ *
  * @author Daniel
  */
 public class PanelDivisaTransferir extends javax.swing.JPanel {
 
     /**
      * Constructor para crear un nuevo PanelDivisaTransferir.
-     * 
-     * @param gestionador   Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     *
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones
+     * relacionadas con la cuenta.
      * @param panelOpciones Contenedor donde se añadirá este panel.
-     * @param registro      Modelo de tabla para mantener el registro de cuentas.
+     * @param registro Modelo de tabla para mantener el registro de cuentas.
      * @param panelPrincipal Marco principal donde se añadirá este panel.
      */
     public PanelDivisaTransferir(GestorCuenta gestionador, Container panelOpciones, DefaultTableModel registro, JFrame panelPrincipal) {
@@ -34,8 +37,7 @@ public class PanelDivisaTransferir extends javax.swing.JPanel {
         panelOpciones.revalidate();
         panelOpciones.repaint();
         panelPrincipal.pack();
-        
-        
+
         btnTransferirBolivianos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

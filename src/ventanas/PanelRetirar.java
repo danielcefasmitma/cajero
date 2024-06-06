@@ -12,25 +12,30 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * PanelRetirar es una clase que representa el panel para realizar operaciones de retiro en la interfaz gráfica de usuario de un cajero automático.
- * Esta clase permite al usuario retirar dinero de una cuenta seleccionada.
- * 
- * Los componentes de este panel incluyen un campo de texto para ingresar el monto a retirar, un botón para confirmar el retiro, un botón para regresar al panel de opciones,
- * etiquetas para mostrar el saldo disponible y la divisa seleccionada, y una etiqueta de aviso para mensajes al usuario.
- * 
- * Esta clase contiene un constructor público que recibe la divisa, un objeto GestorCuenta, un contenedor para el panel de opciones, un modelo de tabla para el registro de eventos,
- * y el marco principal de la aplicación como parámetros. En el constructor se inicializan los componentes del panel, se configuran los eventos de los botones, y se realiza la lógica
- * para retirar dinero de la cuenta.
- * 
+ * PanelRetirar es una clase que representa el panel para realizar operaciones
+ * de retiro en la interfaz gráfica de usuario de un cajero automático. Esta
+ * clase permite al usuario retirar dinero de una cuenta seleccionada.
+ *
+ * Los componentes de este panel incluyen un campo de texto para ingresar el
+ * monto a retirar, un botón para confirmar el retiro, un botón para regresar al
+ * panel de opciones, etiquetas para mostrar el saldo disponible y la divisa
+ * seleccionada, y una etiqueta de aviso para mensajes al usuario.
+ *
  * @author Daniel
  */
 public class PanelRetirar extends javax.swing.JPanel {
 
     /**
-     * Constructor de la clase PanelRetirar.
-     * 
+     * Constructor público que recibe la divisa, un
+     * objeto GestorCuenta, un contenedor para el panel de opciones, un modelo
+     * de tabla para el registro de eventos, y el marco principal de la
+     * aplicación como parámetros. En el constructor se inicializan los
+     * componentes del panel, se configuran los eventos de los botones, y se
+     * realiza la lógica para retirar dinero de la cuenta.
+     *
      * @param divisa la divisa seleccionada para el retiro
-     * @param gestionador Instancia de GestorCuenta para manejar las operaciones relacionadas con la cuenta.
+     * @param gestionador Instancia de GestorCuenta para manejar las operaciones
+     * relacionadas con la cuenta.
      * @param panelOpciones el contenedor del panel de opciones
      * @param registro el modelo de tabla para el registro de eventos
      * @param panelPrincipal Marco principal de la aplicación
@@ -52,7 +57,7 @@ public class PanelRetirar extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 double montoExistente = Double.parseDouble(gestionador.saldoDisponible());
                 double montoARetirar = Double.parseDouble(jtfMontoARetirar.getText());
-                
+
                 if (montoExistente >= montoARetirar && montoARetirar > 0) {
                     registro.setRowCount(0);
                     double montoConvertido = gestionador.getMontoConvertido(divisa.toLowerCase(), montoARetirar);
@@ -72,7 +77,7 @@ public class PanelRetirar extends javax.swing.JPanel {
                     lblMonto.setText(String.format("%.2f", Double.parseDouble(gestionador.saldoDisponible())));
                     lblAviso.setText("Operación Exitosa");
                     lblAviso.setForeground(new Color(0, 153, 0));
-                }else if(montoARetirar <= 0){
+                } else if (montoARetirar <= 0) {
                     lblAviso.setText("Entrada Invalida");
                     lblAviso.setForeground(new Color(204, 0, 0));
                 }
